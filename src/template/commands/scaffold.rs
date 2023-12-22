@@ -1,10 +1,11 @@
 use std::{
-    fs::{File, OpenOptions},
+    fs::{self, File, OpenOptions},
     io::Write,
+    path::Path,
     process,
 };
 
-use crate::Day;
+use crate::{template::aoc_cli::get_year, Day};
 
 const MODULE_TEMPLATE: &str = r#"advent_of_code::solution!(DAY_NUMBER);
 
@@ -45,16 +46,21 @@ def part_2(text):
 "#;
 
 fn safe_create_file(path: &str) -> Result<File, std::io::Error> {
+    let _path = Path::new(&path);
+    fs::create_dir_all(_path.parent().unwrap()).unwrap();
     OpenOptions::new().write(true).create_new(true).open(path)
 }
 
 fn create_file(path: &str) -> Result<File, std::io::Error> {
+    let _path = Path::new(&path);
+    fs::create_dir_all(_path.parent().unwrap()).unwrap();
     OpenOptions::new().write(true).create(true).open(path)
 }
 
 pub fn handle(day: Day, python: bool, rust: bool) {
-    let input_path = format!("data/inputs/{day}.txt");
-    let example_path = format!("data/examples/{day}.txt");
+    let year = get_year().unwrap();
+    let input_path = format!("data/inputs/{year}/{day}.txt");
+    let example_path = format!("data/examples/{year}/{day}.txt");
     let module_path = format!("src/bin/{day}.rs");
     let python_path = format!("src/bin/day_{day}.py");
 

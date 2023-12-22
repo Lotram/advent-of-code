@@ -36,7 +36,8 @@ pub fn check() -> Result<(), AocCommandError> {
 }
 
 pub fn read(day: Day) -> Result<Output, AocCommandError> {
-    let puzzle_path = get_puzzle_path(day);
+    let year = get_year().unwrap();
+    let puzzle_path = get_puzzle_path(day, year);
 
     let args = build_args(
         "read",
@@ -52,8 +53,9 @@ pub fn read(day: Day) -> Result<Output, AocCommandError> {
 }
 
 pub fn download(day: Day) -> Result<Output, AocCommandError> {
-    let input_path = get_input_path(day);
-    let puzzle_path = get_puzzle_path(day);
+    let year = get_year().unwrap();
+    let input_path = get_input_path(day, year);
+    let puzzle_path = get_puzzle_path(day, year);
 
     let args = build_args(
         "download",
@@ -82,15 +84,15 @@ pub fn submit(day: Day, part: u8, result: &str) -> Result<Output, AocCommandErro
     call_aoc_cli(&args)
 }
 
-fn get_input_path(day: Day) -> String {
-    format!("data/inputs/{day}.txt")
+fn get_input_path(day: Day, year: u16) -> String {
+    format!("data/inputs/{year}/{day}.txt")
 }
 
-fn get_puzzle_path(day: Day) -> String {
-    format!("data/puzzles/{day}.md")
+fn get_puzzle_path(day: Day, year: u16) -> String {
+    format!("data/puzzles/{year}/{day}.md")
 }
 
-fn get_year() -> Option<u16> {
+pub fn get_year() -> Option<u16> {
     match std::env::var("AOC_YEAR") {
         Ok(x) => x.parse().ok().or(None),
         Err(_) => None,
