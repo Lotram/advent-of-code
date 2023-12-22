@@ -1,12 +1,11 @@
 import importlib
 import subprocess
+import tomllib
 from pathlib import Path
 
 import typer
 
 app = typer.Typer(no_args_is_help=True)
-
-AOC_YEAR = 2023
 
 
 @app.command()
@@ -21,10 +20,8 @@ def main(day: int, part: int, use_example: bool = False, submit: bool = False):
     result = func(data.read_text())
     print(result)
     if submit:
-        assert AOC_YEAR is not None
-        subprocess.run(
-            f"aoc submit -y {AOC_YEAR} -d {day:02} {part} {result}", shell=True
-        )
+        year = tomllib.loads(Path(".cargo/config.toml").read_text())["env"]["AOC_YEAR"]
+        subprocess.run(f"aoc submit -y {year} -d {day:02} {part} {result}", shell=True)
 
 
 if __name__ == "__main__":
