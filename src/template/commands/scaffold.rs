@@ -52,49 +52,52 @@ fn create_file(path: &str) -> Result<File, std::io::Error> {
     OpenOptions::new().write(true).create(true).open(path)
 }
 
-pub fn handle(day: Day) {
+pub fn handle(day: Day, python: bool, rust: bool) {
     let input_path = format!("data/inputs/{day}.txt");
     let example_path = format!("data/examples/{day}.txt");
     let module_path = format!("src/bin/{day}.rs");
     let python_path = format!("src/bin/day_{day}.py");
 
-    let mut file = match safe_create_file(&module_path) {
-        Ok(file) => file,
-        Err(e) => {
-            eprintln!("Failed to create module file: {e}");
-            process::exit(1);
-        }
-    };
+    if rust {
+        let mut file = match safe_create_file(&module_path) {
+            Ok(file) => file,
+            Err(e) => {
+                eprintln!("Failed to create module file: {e}");
+                process::exit(1);
+            }
+        };
 
-    match file.write_all(
-        MODULE_TEMPLATE
-            .replace("DAY_NUMBER", &day.into_inner().to_string())
-            .as_bytes(),
-    ) {
-        Ok(()) => {
-            println!("Created module file \"{}\"", &module_path);
-        }
-        Err(e) => {
-            eprintln!("Failed to write module contents: {e}");
-            process::exit(1);
+        match file.write_all(
+            MODULE_TEMPLATE
+                .replace("DAY_NUMBER", &day.into_inner().to_string())
+                .as_bytes(),
+        ) {
+            Ok(()) => {
+                println!("Created module file \"{}\"", &module_path);
+            }
+            Err(e) => {
+                eprintln!("Failed to write module contents: {e}");
+                process::exit(1);
+            }
         }
     }
+    if python {
+        let mut file = match safe_create_file(&python_path) {
+            Ok(file) => file,
+            Err(e) => {
+                eprintln!("Failed to create python file: {e}");
+                process::exit(1);
+            }
+        };
 
-    let mut file = match safe_create_file(&python_path) {
-        Ok(file) => file,
-        Err(e) => {
-            eprintln!("Failed to create python file: {e}");
-            process::exit(1);
-        }
-    };
-
-    match file.write_all(PYTHON_TEMPLATE.as_bytes()) {
-        Ok(_) => {
-            println!("Created python file \"{}\"", &python_path);
-        }
-        Err(e) => {
-            eprintln!("Failed to create python file: {e}");
-            process::exit(1);
+        match file.write_all(PYTHON_TEMPLATE.as_bytes()) {
+            Ok(_) => {
+                println!("Created python file \"{}\"", &python_path);
+            }
+            Err(e) => {
+                eprintln!("Failed to create python file: {e}");
+                process::exit(1);
+            }
         }
     }
 

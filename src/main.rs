@@ -15,6 +15,8 @@ mod args {
         },
         Scaffold {
             day: Day,
+            python: bool,
+            rust: bool,
         },
         Solve {
             day: Day,
@@ -44,6 +46,8 @@ mod args {
             },
             Some("scaffold") => AppArguments::Scaffold {
                 day: args.free_from_str()?,
+                python: args.contains("--python"),
+                rust: args.contains("--rust"),
             },
             Some("solve") => AppArguments::Solve {
                 day: args.free_from_str()?,
@@ -80,7 +84,7 @@ fn main() {
             AppArguments::All { release, time } => all::handle(release, time),
             AppArguments::Download { day } => download::handle(day),
             AppArguments::Read { day } => read::handle(day),
-            AppArguments::Scaffold { day } => scaffold::handle(day),
+            AppArguments::Scaffold { day, python, rust } => scaffold::handle(day, python, rust),
             AppArguments::Solve {
                 day,
                 release,
