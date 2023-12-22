@@ -53,11 +53,11 @@ def part_1(text):
     expand_length = 2
     lines = [list(line) for line in text.strip().split("\n")]
     result = get_answer(lines, expand_length)
-    print(result)
+    return result
 
 
 def part_2(text):
     expand_length = 1_000_000
     lines = [list(line) for line in text.strip().split("\n")]
     result = get_answer(lines, expand_length)
-    print(result)
+    return result

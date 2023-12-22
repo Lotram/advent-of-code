@@ -70,8 +70,8 @@ def part_1(lines):
         hands.append(Hand(cards=cards, bidding=bidding))
 
     sorted_hands = sorted(hands)
-    score = sum(idx * hand.bidding for idx, hand in enumerate(sorted_hands, 1))
-    print(score)
+    result = sum(idx * hand.bidding for idx, hand in enumerate(sorted_hands, 1))
+    return result
 
 
 def part_2(lines):
@@ -82,5 +82,5 @@ def part_2(lines):
         hands.append(Hand(cards=cards, bidding=bidding))
 
     sorted_hands = sorted(hands)
-    score = sum(idx * hand.bidding for idx, hand in enumerate(sorted_hands, 1))
-    print(score)
+    result = sum(idx * hand.bidding for idx, hand in enumerate(sorted_hands, 1))
+    return result

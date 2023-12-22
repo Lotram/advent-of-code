@@ -139,7 +139,7 @@ def part_1(text):
                 workflow = workflows[target]
 
     result = sum(sum(part) for part in accepted)
-    print(result)
+    return result
 
 
 class Range(BaseModel):
@@ -191,4 +191,4 @@ def part_2(text):
                     break
 
     result = sum(range_.len() for range_ in accepted)
-    print(result)
+    return result

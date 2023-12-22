@@ -1,9 +1,8 @@
-import time
 from collections import defaultdict, deque
-from functools import cache, cached_property
+from functools import cached_property
 from itertools import filterfalse, tee
 from math import lcm
-from operator import attrgetter, methodcaller
+from operator import methodcaller
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
@@ -173,7 +172,7 @@ def part_1(text):
 
     result = high * low
 
-    print(result)
+    return result
 
 
 def part_2(text):
@@ -198,7 +197,7 @@ def part_2(text):
 
         if counter > 20_000:
             break
-    print(result)
+    return result
 
 
 def draw_graph(state):

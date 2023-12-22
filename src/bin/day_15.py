@@ -10,7 +10,7 @@ def _hash(text):
 
 def part_1(text):
     result = sum(_hash(data) for data in text.strip("\n").split(","))
-    print(result)
+    return result
 
 
 def part_2(text):
@@ -29,4 +29,4 @@ def part_2(text):
         for slot, length in enumerate(lenses.values(), 1)
     )
 
-    print(result)
+    return result

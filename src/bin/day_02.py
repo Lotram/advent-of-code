@@ -20,7 +20,7 @@ def part_1(lines):
             for value, color in map(methodcaller("split", " "), pattern.findall(draws))
         ):
             total += game_id
-    print(total)
+    return total
 
 
 def part_2(lines):

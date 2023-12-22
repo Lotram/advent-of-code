@@ -51,7 +51,7 @@ def part_1(text):
         blocks, values = parse_line(line)
         line_counter = solve(blocks, values)
         counter += line_counter
-    print(counter)
+    return counter
 
 
 def parse_line_2(line):
@@ -70,4 +70,4 @@ def part_2(text):
         blocks, values = parse_line_2(line)
         line_counter = solve(blocks, values)
         counter += line_counter
-    print(counter)
+    return counter

@@ -15,7 +15,7 @@ def predict(values):
 
 def part_1(text):
     lines = text.split("\n")
-    print(sum(predict(list(map(int, pattern.findall(line)))) for line in lines if line))
+    return sum(predict(list(map(int, pattern.findall(line)))) for line in lines if line)
 
 
 def predict_2(values):
@@ -30,6 +30,6 @@ def predict_2(values):
 
 def part_2(text):
     lines = text.split("\n")
-    print(
-        sum(predict_2(list(map(int, pattern.findall(line)))) for line in lines if line)
+    return sum(
+        predict_2(list(map(int, pattern.findall(line)))) for line in lines if line
     )
