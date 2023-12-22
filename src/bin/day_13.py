@@ -42,11 +42,11 @@ def part_1(text):
     result = 0
     for pattern in text.strip().split("\n\n"):
         result += find_reflexions(pattern)
-    print(result)
+    return result
 
 
 def part_2(text):
     result = 0
     for pattern in text.strip().split("\n\n"):
         result += find_reflexions(pattern)
-    print(result)
+    return result

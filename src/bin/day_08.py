@@ -52,5 +52,4 @@ def part_2(lines):
         end_positions.append(get_ending_node_positions(node_cycle))
 
     # result = 21_003_205_388_413
-    result = min(math.lcm(*end_pos) for end_pos in product(*end_positions))
-    print(result)
+    return min(math.lcm(*end_pos) for end_pos in product(*end_positions))

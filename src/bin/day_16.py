@@ -79,7 +79,7 @@ def part_1(text):
     grid = tuple(tuple(line) for line in text.strip().split("\n"))
     visited = parse(grid, (0, 0), (0, 1))
     result = len(visited)
-    print(result)
+    return result
 
 
 def part_2(text):
@@ -89,4 +89,4 @@ def part_2(text):
     start += [((0, idx), (1, 0)) for idx in range(len(grid[0]))]
     start += [((len(grid) - 1, idx), (-1, 0)) for idx in range(len(grid[0]))]
     result = max(len(parse(grid, position, direction)) for position, direction in start)
-    print(result)
+    return result

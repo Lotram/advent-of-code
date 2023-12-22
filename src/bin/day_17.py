@@ -52,7 +52,7 @@ def part_1(text):
     result = matrix_dijkstra(
         get_neighbours, grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1)
     )
-    print(result[0])
+    return result[0]
 
 
 def get_neighbours_2(node):
@@ -107,4 +107,4 @@ def matrix_dijkstra_2(grid, start_position, end):
 def part_2(text):
     grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
     result = matrix_dijkstra_2(grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1))
-    print(result)
+    return result[0]

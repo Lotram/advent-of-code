@@ -79,4 +79,4 @@ def part_2(lines):
             result = value
             break
 
-    print(result)
+    return result

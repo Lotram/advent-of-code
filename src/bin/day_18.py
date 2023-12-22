@@ -86,7 +86,7 @@ def part_1(text):
         points.append((row, col))
 
     result = abs(int(compute_area(points)))
-    print(result)
+    return result
 
 
 def parse_line_2(line):
@@ -132,4 +132,4 @@ def part_2(text):
         points.append((row, col))
 
     result = abs(int(compute_area(points)))
-    print(result)
+    return result

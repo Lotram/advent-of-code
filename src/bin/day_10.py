@@ -66,7 +66,7 @@ def get_positions(lines):
 def part_1(text):
     lines = [list(line) for line in text.split("\n") if line]
     positions = get_positions(lines)
-    print(len(positions) / 2)
+    return len(positions) / 2
 
 
 class Position(NamedTuple):
@@ -104,4 +104,4 @@ def part_2(text):
                     if inside:
                         counter += 1
 
-    print(counter)
+    return counter

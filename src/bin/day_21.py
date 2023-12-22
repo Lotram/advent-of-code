@@ -1,4 +1,3 @@
-from collections import defaultdict
 from functools import cache
 
 
@@ -36,57 +35,7 @@ def part_1(text):
         return result
 
     result = len(get_tiles(10))
-    print(result)
-
-
-def part_2(text):
-    lines = text.strip().split("\n")
-    row_count = len(lines)
-    col_count = len(lines[0])
-    start = next(
-        (row, col)
-        for row, line in enumerate(lines)
-        for col, char in enumerate(line)
-        if char == "S"
-    )
-
-    chars = {
-        (row - 65, col - 65): char
-        for row, line in enumerate(lines)
-        for col, char in enumerate(line)
-    }
-
-    for (row, col), char in chars.items():
-        if char == "#" or abs(row) == 65 or abs(col) == 65:
-            continue
-
-        if (
-            f"{chars[row + 1, col]}{chars[row - 1, col]}{chars[row, col-1]}{chars[row, col+1]}"
-            == "####"
-        ):
-            chars[row, col] = "#"
-
-    @cache
-    def get_neigbhours(tile):
-        neighbours = set()
-        for dir in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-            row = tile[0] + dir[0]
-            col = tile[1] + dir[1]
-            if lines[row % row_count][col % col_count] != "#":
-                neighbours.add((row, col))
-        return neighbours
-
-    loops = 196
-
-    n_1 = {start}
-    for idx in range(1, loops + 1):
-        _result = set()
-        for tile in n_1:
-            _result |= get_neigbhours(tile)
-        n_1 = _result
-
-    result = len(_result)
-    print(result)
+    return result
 
 
 def part_2(text):
@@ -137,4 +86,4 @@ def part_2(text):
         - (k + 1) ** 2 * inside_odd_count
         - k * (k + 1) * outside_count
     )
-    print(result)
+    return result
