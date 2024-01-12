@@ -84,7 +84,7 @@ def matrix_dijkstra(grid, start, end, neighbour_function):
     min_dist = {
         (row, col): inf for row in range(len(grid)) for col in range(len(grid[0]))
     }
-    min_dist[start] = grid[start[0]][start[1]]
+    min_dist[start] = 0
     path = {node: [] for node in min_dist}
 
     not_visited = []
@@ -92,7 +92,7 @@ def matrix_dijkstra(grid, start, end, neighbour_function):
 
     while not_visited:
         current = heapq.heappop(not_visited)[1]
-        if current == end:
+        if end is not None and current == end:
             break
 
         for neighbour, distance in neighbour_function(grid, *current):
@@ -103,4 +103,7 @@ def matrix_dijkstra(grid, start, end, neighbour_function):
                     not_visited, (min_dist[neighbour], neighbour, path[neighbour])
                 )
 
-    return min_dist[end], path[end] + [end]
+    if end is not None:
+        return min_dist[end], path[end] + [end]
+    else:
+        return min_dist
