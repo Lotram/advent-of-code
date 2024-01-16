@@ -85,3 +85,9 @@ def held_karp(distances):
     path.append(0)
     path.reverse()
     return full_set_cost, path
+
+
+def shortest_hamiltionan_path(distances):
+    distances = [[0] * (len(distances) + 1), *[[0, *row] for row in distances]]
+    cost, path = held_karp_bitmask(distances)
+    return cost, path[1:]
