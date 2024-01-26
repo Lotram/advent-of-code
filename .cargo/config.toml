@@ -7,3 +7,5 @@ solve = "run --quiet --release -- solve"
 all = "run --quiet --release -- all"
 time = "run --quiet --release -- all --release --time"
 
+[env]
+AOC_YEAR = "2016"
