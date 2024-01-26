@@ -1,4 +1,4 @@
-from typing import NamedTuple, Self
+from typing import NamedTuple
 
 import numpy as np
 
@@ -7,7 +7,7 @@ class Point(NamedTuple):
     row: int
     col: int
 
-    def __add__(self, other: Self) -> Self:
+    def __add__(self, other: "Point") -> "Point":
         return Point(self.row + other.row, self.col + other.col)
 
 
