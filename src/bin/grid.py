@@ -78,8 +78,19 @@ class Grid:
     def replace(self, old, new):
         self.arr[self.arr == old] = new
 
+    def rotate(self, idx, shift, axis):
+        """
+        axis 0 to rotate a row, 1 to rotate a column
+        """
+        _slice = idx if axis == 0 else (slice(None), idx)
+        self.arr[_slice] = np.roll(self.arr[_slice], shift=shift)
+
     def print(self):
-        for row in self.rows:
+        if self.arr.dtype == "bool":
+            rows = iter(np.where(self.arr, "#", "."))
+        else:
+            rows = self.rows
+        for row in rows:
             print("".join(map(str, row)))
 
     def transpose(self):
