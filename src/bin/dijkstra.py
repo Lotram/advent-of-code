@@ -1,43 +1,9 @@
 import heapq
-from operator import itemgetter
 
 inf = float("inf")
 
 
-def basic_dijkstra(graph, distances, start, end):
-    def get_min(distances, not_visited):
-        return min(
-            (
-                (dist, node)
-                for node, dist in distances.items()
-                if node in not_visited and dist != inf
-            ),
-            key=itemgetter(0),
-        )[1]
-
-    min_dist = {node: 0 if node == start else inf for node in graph}
-    prev = {node: None for node in graph}
-    not_visited = set(min_dist)
-    while not_visited:
-        current = get_min(min_dist, not_visited)
-        if current == end:
-            break
-        not_visited -= {current}
-        for neighbour, distance in distances[current].items():
-            if min_dist[neighbour] > distance + min_dist[current]:
-                min_dist[neighbour] = distance + min_dist[current]
-                prev[neighbour] = current
-
-    def get_path(pre, node, path):
-        if node is None:
-            return path
-
-        return get_path(pre, pre[node], [node, *path])
-
-    return min_dist[end], get_path(prev, end, [])
-
-
-def heapq_dijkstra(graph, distances, start, end):
+def deprecated_heapq_dijkstra(graph, distances, start, end):
     min_dist = {node: 0 if node == start else inf for node in graph}
     prev = {node: None for node in graph}
     not_visited = []
@@ -63,7 +29,48 @@ def heapq_dijkstra(graph, distances, start, end):
     return min_dist[end], get_path(prev, end, [])
 
 
-dijkstra = heapq_dijkstra
+def dijkstra(start, end, get_neighbours):
+    return a_star(start, end, get_neighbours, lambda node: 0)
+
+
+def a_star(start, end, get_neighbours, heuristic):
+    min_dist = {start: 0}
+    prev = {start: None}
+    not_visited = []
+    heapq.heappush(not_visited, (0, start))
+    count = 0
+    n_count = 0
+    while not_visited:
+        count += 1
+        current = heapq.heappop(not_visited)[1]
+        if current == end:
+            break
+
+        for neighbour, distance in get_neighbours(current):
+            n_count += 1
+            if min_dist.get(neighbour, inf) > distance + min_dist[current]:
+                min_dist[neighbour] = distance + min_dist[current]
+                prev[neighbour] = current
+                heapq.heappush(
+                    not_visited, (min_dist[neighbour] + heuristic(neighbour), neighbour)
+                )
+
+    def get_path(pre, node, path):
+        if node is None:
+            return path
+
+        return get_path(pre, pre[node], [node, *path])
+
+    print("count", count)
+    print("n_count", n_count)
+    return min_dist[end], get_path(prev, end, [])
+
+
+def dijkstra_with_distance(distances, start, end):
+    def get_neighbours(_, current):
+        return distances[current].items()
+
+    return dijkstra(start, end, get_neighbours)
 
 
 def neighbours(grid, row, col):
