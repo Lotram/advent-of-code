@@ -29,31 +29,32 @@ def deprecated_heapq_dijkstra(graph, distances, start, end):
     return min_dist[end], get_path(prev, end, [])
 
 
-def dijkstra(start, end, get_neighbours):
-    return a_star(start, end, get_neighbours, lambda node: 0)
+def dijkstra(start, stop_condition, get_neighbours):
+    return a_star(start, stop_condition, get_neighbours, lambda node: 0)
 
 
-def a_star(start, end, get_neighbours, heuristic):
+def a_star(start, stop_condition, get_neighbours, heuristic):
+    if not callable(stop_condition):
+        stop_condition = stop_condition.__eq__
+
     min_dist = {start: 0}
     prev = {start: None}
     not_visited = []
     heapq.heappush(not_visited, (0, start))
-    count = 0
-    n_count = 0
     while not_visited:
-        count += 1
         current = heapq.heappop(not_visited)[1]
-        if current == end:
+        if stop_condition(current):
             break
 
         for neighbour, distance in get_neighbours(current):
-            n_count += 1
             if min_dist.get(neighbour, inf) > distance + min_dist[current]:
                 min_dist[neighbour] = distance + min_dist[current]
                 prev[neighbour] = current
                 heapq.heappush(
                     not_visited, (min_dist[neighbour] + heuristic(neighbour), neighbour)
                 )
+    else:
+        raise ValueError("all nodes visited without finding a solution")
 
     def get_path(pre, node, path):
         if node is None:
@@ -61,16 +62,14 @@ def a_star(start, end, get_neighbours, heuristic):
 
         return get_path(pre, pre[node], [node, *path])
 
-    print("count", count)
-    print("n_count", n_count)
-    return min_dist[end], get_path(prev, end, [])
+    return min_dist[current], get_path(prev, current, [])
 
 
 def dijkstra_with_distance(distances, start, end):
     def get_neighbours(_, current):
         return distances[current].items()
 
-    return dijkstra(start, end, get_neighbours)
+    return dijkstra(start, end.__eq__, get_neighbours)
 
 
 def neighbours(grid, row, col):
