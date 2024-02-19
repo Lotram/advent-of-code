@@ -7,12 +7,30 @@ class Point(NamedTuple):
     row: int
     col: int
 
-    def __add__(self, other: "Point") -> "Point":
-        return Point(self.row + other.row, self.col + other.col)
+    def __add__(self, vec: "Vector") -> "Point":
+        return Point(self.row + vec.row, self.col + vec.col)
 
 
-DIRECTIONS = [Point(0, 1), Point(0, -1), Point(1, 0), Point(-1, 0)]
-DIAG_DIRECTIONS = [Point(-1, -1), Point(1, -1), Point(-1, 1), Point(1, 1)]
+class Vector(Point):
+    pass
+
+    def __mul__(self, value: int) -> "Vector":
+        return Vector(self.row * value, self.col * value)
+
+    def __rmul__(self, value: int) -> "Vector":
+        return self.__mul__(value)
+
+    def __add__(self, point: "Point") -> "Point":
+        return Point(self.row + point.row, self.col + point.col)
+
+
+DIRECTIONS = [
+    NORTH := Vector(-1, 0),
+    EAST := Vector(0, 1),
+    SOUTH := Vector(1, 0),
+    WEST := Vector(0, -1),
+]
+DIAG_DIRECTIONS = [Vector(-1, -1), Vector(1, -1), Vector(-1, 1), Vector(1, 1)]
 
 
 class Grid:
