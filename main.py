@@ -13,13 +13,15 @@ def run(year, day, part, example):
     file_name = f"day_{day:02}"
     data_dir = "examples" if example else "inputs"
     data = Path("data") / data_dir / year / f"{day:02}.txt"
+    if not data.is_file():
+        subprocess.run(f"cargo download {day}", shell=True)
     package = importlib.import_module(f"src.bin.{file_name}")
     func = getattr(package, f"part_{part}")
     return func(data.read_text())
 
 
 def _main(year, day, part, example, submit, time):
-    assert day in set(range(1, 25)), f"'day' should be an int between 1 and 25, {day}"
+    assert day in set(range(1, 26)), f"'day' should be an int between 1 and 25, {day}"
     assert part in {1, 2}, f"'part' should be either 1 or 2, {part}"
     start = perf_counter()
     result = run(year, day, part, example)
