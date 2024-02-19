@@ -2,8 +2,6 @@ import re
 
 import numpy as np
 
-from .grid import Grid
-
 
 def part_1(text):
     screen = np.zeros((6, 50), dtype=bool)
@@ -19,9 +17,6 @@ def part_1(text):
             screen[:y, :x] = True
         else:
             raise ValueError(line)
-        print()
-
-    Grid(arr=screen).print()
 
     result = screen.sum()
     return result
