@@ -8,6 +8,30 @@ def get_diffs(left, right):
 
 def find_reflexion(rows):
     rows = list(map(tuple, rows))
+    for idx in range(1, len(rows)):
+        if all(left == right for left, right in zip(rows[:idx][::-1], rows[idx:])):
+            return idx
+
+
+def find_reflexions(pattern, find_reflexion):
+    rows = pattern.split("\n")
+    idx = find_reflexion(rows)
+    if idx is not None:
+        return 100 * idx
+
+    columns = list(zip(*rows))
+    return find_reflexion(columns)
+
+
+def part_1(text):
+    result = 0
+    for pattern in text.strip().split("\n\n"):
+        result += find_reflexions(pattern, find_reflexion)
+    return result
+
+
+def find_broken_reflexion(rows):
+    rows = list(map(tuple, rows))
     candidates = [
         idx for idx in range(1, len(rows)) if is_similar(rows[idx], rows[idx - 1])
     ]
@@ -28,25 +52,8 @@ def find_reflexion(rows):
             return candidate
 
 
-def find_reflexions(pattern):
-    rows = pattern.split("\n")
-    idx = find_reflexion(rows)
-    if idx is not None:
-        return 100 * idx
-
-    columns = list(zip(*rows))
-    return find_reflexion(columns)
-
-
-def part_1(text):
-    result = 0
-    for pattern in text.strip().split("\n\n"):
-        result += find_reflexions(pattern)
-    return result
-
-
 def part_2(text):
     result = 0
     for pattern in text.strip().split("\n\n"):
-        result += find_reflexions(pattern)
+        result += find_reflexions(pattern, find_broken_reflexion)
     return result
