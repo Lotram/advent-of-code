@@ -168,7 +168,6 @@ def part_2(text):
     rejected = []
     while q:
         range_ = q.pop(0)
-        print(range_)
         while True:
             if range_ is None:
                 break

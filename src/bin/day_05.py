@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 def part_1(lines):
     result = None
-    print(result)
+    return result
 
 
 class Range(BaseModel):

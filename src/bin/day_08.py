@@ -7,7 +7,7 @@ PATTERN = re.compile(r"(?P<position>\w{3}) = \((?P<left>\w{3}), (?P<right>\w{3})
 
 def part_1(lines):
     result = None
-    print(result)
+    return result
 
 
 def find_cycle(start_node, nodes, directions):

@@ -28,7 +28,6 @@ def part_1(text):
         if n == 0:
             return {start}
         n_1 = get_tiles(n - 1)
-        print(n - 1, len(n_1))
         result = set()
         for tile in n_1:
             result |= get_neigbhours(tile)
@@ -54,7 +53,7 @@ def part_2(text):
             continue
 
         if (
-            f"{chars[row + 1, col]}{chars[row - 1, col]}{chars[row, col-1]}{chars[row, col+1]}"
+            f"{chars[row + 1, col]}{chars[row - 1, col]}{chars[row, col - 1]}{chars[row, col + 1]}"
             == "####"
         ):
             chars[row, col] = "#"

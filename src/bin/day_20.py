@@ -72,7 +72,6 @@ class Conjunction(Module):
         value = not all(self.state.values())
         if value and not self.cycle:
             self.cycle = pulse.counter
-            print(f"{self.name}: {self.cycle}")
         return value
 
 
@@ -140,7 +139,7 @@ def parse(lines):
     return state
 
 
-def push_button(state, counter):
+def push_button(state, counter=0):
     signals = deque(
         [
             Pulse(
@@ -198,10 +197,3 @@ def part_2(text):
         if counter > 20_000:
             break
     return result
-
-
-def draw_graph(state):
-    for module in state.modules:
-        for dest in module.destinations:
-            print(f"{module.name} --> {dest}")
-        print(f"class {module.name} {module.type}")

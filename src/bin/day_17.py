@@ -1,110 +1,98 @@
-import heapq
+from collections.abc import Iterator
+from typing import NamedTuple
+
+import numpy as np
+
+from .dijkstra import dijkstra
+from .grid import DIRECTIONS, EAST, Grid, Point, Vector
 
 inf = float("inf")
 
-
-def get_neighbours(node):
-    row, col, direction, count = node
-    other_directions = {(0, 1), (0, -1), (1, 0), (-1, 0)} - {
-        direction,
-        (-direction[0], -direction[1]),
-    }
-
-    for other_direction in other_directions:
-        yield (row + other_direction[0], col + other_direction[1], other_direction, 1)
-
-    if count < 3:
-        yield (row + direction[0], col + direction[1], direction, count + 1)
+DIRECTION_SET = set(DIRECTIONS)
 
 
-def matrix_dijkstra(grid, start_position, end):
-    start = (*start_position, (0, 1), 0)
-    min_dist = {start: 0}
-    path = {start: [start]}
-
-    not_visited = []
-    heapq.heappush(not_visited, (0, start, []))
-
-    while not_visited:
-        current = heapq.heappop(not_visited)[1]
-        if (current[0], current[1]) == end:
-            end_node = current
-            break
-
-        for neighbour in get_neighbours(current):
-            row, col, _, _ = neighbour
-            if not (0 <= row < len(grid) and 0 <= col < len(grid[0])):
-                continue
-
-            distance = grid[row][col]
-            if min_dist.get(neighbour, inf) > distance + min_dist[current]:
-                min_dist[neighbour] = distance + min_dist[current]
-                path[neighbour] = path[current] + [current]
-                heapq.heappush(
-                    not_visited, (min_dist[neighbour], neighbour, path[neighbour])
-                )
-
-    return min_dist[end_node], path[end_node] + [end_node]
+class Node(NamedTuple):
+    point: Point
+    direction: Vector
+    count: int
 
 
-def part_1(text):
-    grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
-    result = matrix_dijkstra(
-        get_neighbours, grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1)
-    )
+def get_neighbours_func(grid: Grid):
+    def get_neighbours(node: Node) -> Iterator[tuple[Node, int]]:
+        point, direction, count = node
+        other_directions = DIRECTION_SET - {direction, -direction}
+
+        neighbours = []
+        for other_direction in other_directions:
+            neighbours.append(Node(point + other_direction, other_direction, 1))
+        if count < 3:
+            neighbours.append(Node(point + direction, direction, count + 1))
+
+        for neighbour in neighbours:
+            if neighbour.point in grid:
+                yield (neighbour, grid[neighbour.point])
+
+    return get_neighbours
+
+
+def stop_condition_func(end_point):
+    def stop_condition(node: Node) -> bool:
+        return node.point == end_point
+
+    return stop_condition
+
+
+def solution(grid, get_neighbours):
+    start = Node(Point(0, 0), EAST, 0)
+    end_point = Point(grid.row_size - 1, grid.col_size - 1)
+    stop_condition = stop_condition_func(end_point)
+    result = dijkstra(start, stop_condition, get_neighbours)
     return result[0]
 
 
-def get_neighbours_2(node):
-    row, col, direction, count = node
-    other_directions = {(0, 1), (0, -1), (1, 0), (-1, 0)} - {
-        direction,
-        (-direction[0], -direction[1]),
-    }
-
-    if count < 10:
-        yield (row + direction[0], col + direction[1], direction, count + 1)
-    if count == 0 or count >= 4:
-        for other_direction in other_directions:
-            yield (
-                row + other_direction[0],
-                col + other_direction[1],
-                other_direction,
-                1,
-            )
+def part_1(text):
+    arr = np.array(tuple(tuple(map(int, line)) for line in text.strip().split("\n")))
+    grid = Grid(arr)
+    get_neighbours = get_neighbours_func(grid)
+    start = Node(Point(0, 0), EAST, 0)
+    end_point = Point(grid.row_size - 1, grid.col_size - 1)
+    stop_condition = stop_condition_func(end_point)
+    result = dijkstra(start, stop_condition, get_neighbours)
+    return result[0]
 
 
-def matrix_dijkstra_2(grid, start_position, end):
-    start = (*start_position, (0, 1), 0)
-    min_dist = {start: 0}
-    path = {start: [start]}
+def get_neighbours_func_2(grid: Grid):
+    def get_neighbours(node: Node) -> Iterator[tuple[Node, int]]:
+        point, direction, count = node
+        other_directions = DIRECTION_SET - {direction, -direction}
 
-    not_visited = []
-    heapq.heappush(not_visited, (0, start, []))
+        neighbours = []
+        if count == 0 or count >= 4:
+            for other_direction in other_directions:
+                neighbours.append(Node(point + other_direction, other_direction, 1))
+        if count < 10:
+            neighbours.append(Node(point + direction, direction, count + 1))
 
-    while not_visited:
-        current = heapq.heappop(not_visited)[1]
-        if (current[0], current[1]) == end and current[-1] >= 4:
-            end_node = current
-            break
+        for neighbour in neighbours:
+            if neighbour.point in grid:
+                yield (neighbour, grid[neighbour.point])
 
-        for neighbour in get_neighbours_2(current):
-            row, col, _, _ = neighbour
-            if not (0 <= row < len(grid) and 0 <= col < len(grid[0])):
-                continue
+    return get_neighbours
 
-            distance = grid[row][col]
-            if min_dist.get(neighbour, inf) > distance + min_dist[current]:
-                min_dist[neighbour] = distance + min_dist[current]
-                path[neighbour] = path[current] + [current]
-                heapq.heappush(
-                    not_visited, (min_dist[neighbour], neighbour, path[neighbour])
-                )
 
-    return min_dist[end_node], path[end_node] + [end_node]
+def stop_condition_func_2(end_point):
+    def stop_condition(node: Node) -> bool:
+        return node.point == end_point and node.count >= 4
+
+    return stop_condition
 
 
 def part_2(text):
-    grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
-    result = matrix_dijkstra_2(grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1))
+    arr = np.array(tuple(tuple(map(int, line)) for line in text.strip().split("\n")))
+    grid = Grid(arr)
+    get_neighbours = get_neighbours_func_2(grid)
+    start = Node(Point(0, 0), EAST, 0)
+    end_point = Point(grid.row_size - 1, grid.col_size - 1)
+    stop_condition = stop_condition_func_2(end_point)
+    result = dijkstra(start, stop_condition, get_neighbours)
     return result[0]

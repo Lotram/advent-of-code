@@ -45,7 +45,7 @@ def parse_line(line):
 
 
 def part_1(text):
-    lines = text.strip(".").split("\n")
+    lines = text.strip(".\n").split("\n")
     counter = 0
     for line in lines:
         blocks, values = parse_line(line)
@@ -64,7 +64,7 @@ def parse_line_2(line):
 
 
 def part_2(text):
-    lines = [line for line in text.strip(".").split("\n") if line]
+    lines = text.strip(".\n").split("\n")
     counter = 0
     for line in lines:
         blocks, values = parse_line_2(line)

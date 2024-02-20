@@ -1,3 +1,4 @@
+import math
 from operator import methodcaller
 
 from .karger_min_cut import Edge, Graph
@@ -16,9 +17,10 @@ def part_1(text):
 
     graph = Graph(vertices=vertices, edges=edges)
     while True:
-        min_cut, size_1, size_2 = graph._min_cut()
-        if min_cut == 3:
-            return size_1 * size_2
+        min_cut, ds_graph = graph.min_cut()
+        if min_cut <= 3:
+            ds = ds_graph.disjoint_set
+            return math.prod(ds.elements[root].size for root in ds.roots)
 
 
 def part_2(text):

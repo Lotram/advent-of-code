@@ -2,7 +2,8 @@ import re
 
 
 def part_1(lines):
-    print(lines.split("\n")[:3])
+    result = None
+    return result
 
 
 def part_2(lines):
@@ -40,8 +41,6 @@ def part_2(lines):
         number = int(f"{first_digit}{last_digit}")
         calibrations.append(number)
 
-    print("calibrations", sum(calibrations))
-
     total = 0
 
     for i, line in enumerate(lines.strip().split("\n")):
@@ -50,4 +49,4 @@ def part_2(lines):
 
         total += number
 
-    print("total:", total)
+    return total

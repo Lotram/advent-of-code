@@ -25,4 +25,4 @@ def part_1(lines):
 
 def part_2(lines):
     result = None
-    print(result)
+    return result
