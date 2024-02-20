@@ -10,6 +10,9 @@ class Point(NamedTuple):
     def __add__(self, vec: "Vector") -> "Point":
         return Point(self.row + vec.row, self.col + vec.col)
 
+    def __sub__(self, other: "Point") -> "Vector":
+        return Vector(self.row - other.row, self.col - other.col)
+
 
 class Vector(Point):
     pass
@@ -22,6 +25,12 @@ class Vector(Point):
 
     def __add__(self, point: "Point") -> "Point":
         return Point(self.row + point.row, self.col + point.col)
+
+    def __neg__(self):
+        return self * -1
+
+    def norm(self, p=1):
+        return pow(sum(pow(abs(x), p) for x in self), 1 / p)
 
 
 DIRECTIONS = [
@@ -52,8 +61,11 @@ class Grid:
     def col_size(self):
         return len(self.arr[0])
 
-    def contains(self, point: Point):
+    def __contains__(self, point: Point) -> bool:
         return 0 <= point[0] < self.row_size and 0 <= point[1] < self.col_size
+
+    def contains(self, point: Point):
+        return point in self
 
     def neighbours(self, point: Point):
         directions = DIRECTIONS + DIAG_DIRECTIONS if self.diag else DIRECTIONS

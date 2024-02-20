@@ -54,6 +54,7 @@ def main(
 
     else:
         start, end = map(int, day.split("-"))
+        errors = []
         for _day in range(start, end + 1):
             for _part in [1, 2]:
                 if Path(f"src/bin/day_{_day:02}.py").is_file():
@@ -62,7 +63,11 @@ def main(
                         _main(year, _day, _part, example, False, time)
                     except Exception as error:
                         print(f"Error: {error}")
+                        errors.append((_day, _part))
                     print()
+
+        if errors:
+            print(f"Encountered some errors: {errors}")
 
 
 if __name__ == "__main__":
