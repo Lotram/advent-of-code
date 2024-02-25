@@ -1,3 +1,4 @@
+from itertools import starmap
 from typing import NamedTuple
 
 import numpy as np
@@ -96,8 +97,7 @@ class Grid:
         )
 
     def find_iter(self, value):
-        # return (point for point, _value in self.flat_iter() if _value == value)
-        return zip(*np.where(self.arr == "*"))
+        return starmap(Point, zip(*np.where(self.arr == value)))
 
     def find(self, value):
         return next(self.find_iter(value))
@@ -124,4 +124,4 @@ class Grid:
             print("".join(map(str, row)))
 
     def transpose(self):
-        return Grid(self.arr.transpose, self.diag)
+        return Grid(self.arr.transpose(), self.diag)
