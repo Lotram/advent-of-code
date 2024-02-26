@@ -29,11 +29,11 @@ def deprecated_heapq_dijkstra(graph, distances, start, end):
     return min_dist[end], get_path(prev, end, [])
 
 
-def dijkstra(start, stop_condition, get_neighbours):
-    return a_star(start, stop_condition, get_neighbours, lambda node: 0)
+def dijkstra(start, stop_condition, get_neighbours, return_all=False):
+    return a_star(start, stop_condition, get_neighbours, return_all)
 
 
-def a_star(start, stop_condition, get_neighbours, heuristic):
+def a_star(start, stop_condition, get_neighbours, return_all=False, heuristic=None):
     if not callable(stop_condition):
         stop_condition = stop_condition.__eq__
 
@@ -50,17 +50,22 @@ def a_star(start, stop_condition, get_neighbours, heuristic):
             if min_dist.get(neighbour, inf) > distance + min_dist[current]:
                 min_dist[neighbour] = distance + min_dist[current]
                 prev[neighbour] = current
-                heapq.heappush(
-                    not_visited, (min_dist[neighbour] + heuristic(neighbour), neighbour)
-                )
+                weight = min_dist[neighbour]
+                if heuristic is not None:
+                    weight += heuristic(neighbour)
+                heapq.heappush(not_visited, (weight, neighbour))
     else:
-        raise ValueError("all nodes visited without finding a solution")
+        if return_all is False:
+            raise ValueError("all nodes visited without finding a solution")
 
     def get_path(pre, node, path):
         if node is None:
             return path
 
         return get_path(pre, pre[node], [node, *path])
+
+    if return_all:
+        return min_dist
 
     return min_dist[current], get_path(prev, current, [])
 

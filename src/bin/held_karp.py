@@ -2,6 +2,9 @@ from itertools import combinations
 
 
 def held_karp_bitmask(distances, max_value=False):
+    """
+    Algorithm to solve Traveling Salesperson Problem (shortest hamiltonian cycle)
+    """
     N = len(distances)
     func = max if max_value else min
     # memoization table, where keys are pairs (subset of nodes, node) and values are costs
@@ -91,6 +94,9 @@ def held_karp(distances, max_value=False):
 
 
 def shortest_hamiltionan_path(distances, max_value=False):
+    """
+    Similar to TSP, but without the need to return to the start
+    """
     distances = [[0] * (len(distances) + 1), *[[0, *row] for row in distances]]
     cost, path = held_karp_bitmask(distances, max_value)
-    return cost, path[1:]
+    return cost, [idx - 1 for idx in path[1:]]
