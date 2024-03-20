@@ -25,7 +25,7 @@ class Vector(Point):
         return self.__mul__(value)
 
     def __add__(self, point: "Point") -> "Point":
-        return Point(self.row + point.row, self.col + point.col)
+        return point.__class__(self.row + point.row, self.col + point.col)
 
     def __neg__(self):
         return self * -1
