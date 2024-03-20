@@ -3,13 +3,12 @@ from itertools import batched
 from operator import xor
 
 
-def knot_hash(size, lengths, rounds=1):
+def knot_hash_round(size, lengths, rounds=1):
     values = list(range(size))
     skip = 0
     current_position = 0
     for _ in range(rounds):
         for length in lengths:
-
             if length > size:
                 raise ValueError(f"length {length} > size {size}")
 
@@ -24,19 +23,23 @@ def knot_hash(size, lengths, rounds=1):
     return values
 
 
+def knot_hash(text):
+    size = 256
+    lengths = [*map(int, map(ord, text.strip())), 17, 31, 73, 47, 23]
+    values = knot_hash_round(size, lengths, rounds=64)
+    dense = map(partial(reduce, xor), batched(values, 16))
+
+    return "".join(f"{value:0>2x}" for value in dense)
+
+
 def part_1(text):
     size = 256
     lengths = map(int, text.split(","))
-    values, _, _ = knot_hash(size, lengths)
+    values = knot_hash_round(size, lengths)
     result = values[0] * values[1]
     return result
 
 
 def part_2(text):
-    size = 256
-    lengths = [*map(int, map(ord, text.strip())), 17, 31, 73, 47, 23]
-    values = knot_hash(size, lengths, rounds=64)
-    dense = map(partial(reduce, xor), batched(values, 16))
-
-    result = "".join(f"{value:0>2x}" for value in dense)
+    result = knot_hash(text)
     return result
