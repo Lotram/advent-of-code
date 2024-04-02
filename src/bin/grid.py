@@ -1,37 +1,58 @@
+from dataclasses import dataclass
 from itertools import starmap
-from typing import NamedTuple
 
 import numpy as np
 
 
-class Point(NamedTuple):
-    row: int
-    col: int
+class AbstractVector:
 
-    def __add__(self, vec: "Vector") -> "Point":
-        return Point(self.row + vec.row, self.col + vec.col)
+    @property
+    def fields(self):
+        return tuple(self.__dataclass_fields__)
 
-    def __sub__(self, other: "Point") -> "Vector":
-        return Vector(self.row - other.row, self.col - other.col)
+    def __add__(self, vec: "AbstractVector") -> "AbstractVector":
+        kwargs = {
+            field: getattr(self, field) + getattr(vec, field) for field in self.fields
+        }
+        return self.__class__(**kwargs)
 
-
-class Vector(Point):
-    pass
-
-    def __mul__(self, value: int) -> "Vector":
-        return Vector(self.row * value, self.col * value)
-
-    def __rmul__(self, value: int) -> "Vector":
-        return self.__mul__(value)
-
-    def __add__(self, point: "Point") -> "Point":
-        return point.__class__(self.row + point.row, self.col + point.col)
+    def __sub__(self, other: "AbstractVector") -> "AbstractVector":
+        return self.__add__(-other)
 
     def __neg__(self):
         return self * -1
 
+    def __mul__(self, value: int) -> "AbstractVector":
+        kwargs = {field: getattr(self, field) * value for field in self.fields}
+        return self.__class__(**kwargs)
+
+    def __rmul__(self, value: int) -> "AbstractVector":
+        return self.__mul__(value)
+
     def norm(self, p=1):
         return pow(sum(pow(abs(x), p) for x in self), 1 / p)
+
+    def __iter__(self):
+        for field in self.fields:
+            yield getattr(self, field)
+
+
+@dataclass(slots=True)
+class Vector2D(AbstractVector):
+    x: int
+    y: int
+
+
+@dataclass(slots=True)
+class Vector3D(Vector2D):
+    z: int
+
+
+# FIXME: legacy, should be removed
+@dataclass(slots=True)
+class Vector(AbstractVector):
+    row: int
+    col: int
 
 
 DIRECTIONS = [
@@ -43,6 +64,8 @@ DIRECTIONS = [
 DIAG_DIRECTIONS = [Vector(-1, -1), Vector(1, -1), Vector(-1, 1), Vector(1, 1)]
 
 
+# TODO: make this work with 3D ?
+# TODO: make this work with (x, y) instead of (row, col) ?
 class Grid:
     def __init__(self, arr, diag=False):
         self.arr = np.array(arr)
@@ -62,16 +85,16 @@ class Grid:
     def col_size(self):
         return len(self.arr[0])
 
-    def __contains__(self, point: Point) -> bool:
-        return 0 <= point[0] < self.row_size and 0 <= point[1] < self.col_size
+    def __contains__(self, vector: Vector) -> bool:
+        return 0 <= vector.row < self.row_size and 0 <= vector.col < self.col_size
 
-    def contains(self, point: Point):
-        return point in self
+    def contains(self, vector: Vector):
+        return vector in self
 
-    def neighbours(self, point: Point):
+    def neighbours(self, vector: Vector):
         directions = DIRECTIONS + DIAG_DIRECTIONS if self.diag else DIRECTIONS
         for direction in directions:
-            neighbour = point + direction
+            neighbour = vector + direction
             if self.contains(neighbour):
                 yield (neighbour, self.arr[neighbour])
 
@@ -91,13 +114,13 @@ class Grid:
 
     def flat_iter(self):
         yield from (
-            (Point(row_idx, col_idx), val)
+            (Vector(row_idx, col_idx), val)
             for row_idx, row in enumerate(self.rows)
             for col_idx, val in enumerate(row)
         )
 
     def find_iter(self, value):
-        return starmap(Point, zip(*np.where(self.arr == value)))
+        return starmap(Vector, zip(*np.where(self.arr == value)))
 
     def find(self, value):
         return next(self.find_iter(value))
