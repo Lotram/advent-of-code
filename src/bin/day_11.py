@@ -1,4 +1,4 @@
-from .grid import Point, Vector
+from .grid import Vector
 
 directions = {
     "ne": Vector(1, 1),
@@ -16,13 +16,13 @@ def distance(position):
 
 
 def part_1(text):
-    end = sum((directions[_dir] for _dir in text.strip().split(",")), Point(0, 0))
+    end = sum((directions[_dir] for _dir in text.strip().split(",")), Vector(0, 0))
     result = distance(end)
     return result
 
 
 def part_2(text):
-    position = Point(0, 0)
+    position = Vector(0, 0)
     result = 0
     for direction in text.strip().split(","):
         position += directions[direction]

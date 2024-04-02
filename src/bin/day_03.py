@@ -1,7 +1,7 @@
 from itertools import chain, count, cycle, repeat
 from math import sqrt
 
-from .grid import DIAG_DIRECTIONS, EAST, NORTH, SOUTH, WEST, Point, Vector
+from .grid import DIAG_DIRECTIONS, EAST, NORTH, SOUTH, WEST, Vector
 
 DIRECTIONS = [EAST, NORTH, WEST, SOUTH]
 
@@ -36,7 +36,7 @@ def part_1(text):
 
 def part_2(text):
     target = int(text.strip())
-    data = {(point := Point(0, 0)): 1}
+    data = {(point := Vector(0, 0)): 1}
     dir_it = cycle(DIRECTIONS)
     length_it = (idx for i in count(1) for idx in chain(repeat(i, 2)))
 
