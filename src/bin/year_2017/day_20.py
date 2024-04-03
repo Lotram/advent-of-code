@@ -26,7 +26,7 @@ def parse_line(line):
     return Particle(*starmap(Vector3D, batched(map(int, pattern.findall(line)), 3)))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     particles = [parse_line(line) for line in text.strip().split("\n")]
     result, _ = min(
         ((idx, particle) for (idx, particle) in enumerate(particles)),
@@ -40,7 +40,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     particles = [parse_line(line) for line in text.strip().split("\n")]
 
     # empirical value

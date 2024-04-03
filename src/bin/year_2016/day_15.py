@@ -12,13 +12,13 @@ def parse_text(text):
     return equations
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     equations = parse_text(text)
     result = solve_congruence(*equations)[0]
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     equations = parse_text(text)
     equations.append((-len(equations) - 1, 11))
     result = solve_congruence(*equations)[0]

@@ -3,7 +3,7 @@ from .grid import EAST, NORTH, SOUTH, WEST, Grid, Point
 DIRECTIONS = {"U": NORTH, "L": WEST, "D": SOUTH, "R": EAST}
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     position = Point(1, 1)
     code = []
@@ -18,7 +18,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     position = Point(1, 1)
     code = []

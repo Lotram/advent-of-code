@@ -2,7 +2,7 @@ import hashlib
 from itertools import count
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     word = text.strip()
     counter = count(0)
     result = ""
@@ -15,7 +15,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     word = text.strip()
     counter = count(0)
     result: list[None | str] = [None] * 8

@@ -24,7 +24,7 @@ def join_subs(subs: list[np.ndarray], size: int) -> np.ndarray:
     )
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     arr = np.array([list(line) for line in pattern])
     for _ in range(5):
         subarrays = list(get_subarrays(arr, len(arr)))
@@ -32,6 +32,6 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = None
     return result

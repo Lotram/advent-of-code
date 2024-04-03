@@ -5,7 +5,6 @@ from operator import attrgetter
 
 
 class Range:
-
     def __init__(self, start, stop):
         self.start = start
         self.stop = stop
@@ -31,7 +30,7 @@ class Range:
         return f"Range(start={self.start}, stop={self.stop})"
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     ranges = []
     for line in text.strip().split("\n"):
         ranges.append(Range(*map(int, line.split("-"))))
@@ -75,7 +74,7 @@ def add_range(ranges, range_):
         return [*ranges[:index], union_right, *ranges[index + count :]]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     ranges = []
 
     for line in text.strip().split("\n"):

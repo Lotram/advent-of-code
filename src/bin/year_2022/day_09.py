@@ -36,13 +36,13 @@ def solution(moves, size):
     return len(tail_positions)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     moves = [(MOVES[line[0]], int(line[2:])) for line in lines]
     return solution(moves, size=2)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     moves = [(MOVES[line[0]], int(line[2:])) for line in lines]
     return solution(moves, size=10)

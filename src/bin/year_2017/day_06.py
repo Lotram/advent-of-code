@@ -9,7 +9,7 @@ def redistribute(blocks):
     )
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     seen = set()
     blocks = tuple(map(int, text.strip().split()))
     result = 0
@@ -21,7 +21,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     seen = {}
     blocks = tuple(map(int, text.strip().split()))
     loops = 0

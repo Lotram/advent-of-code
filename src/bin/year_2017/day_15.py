@@ -9,7 +9,7 @@ def generator(seed, factor):
         previous = value
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     seed_a, seed_b = map(int, re.findall(r"\d+", text))
     gen_a = generator(seed_a, 16807)
     gen_b = generator(seed_b, 48271)
@@ -27,7 +27,7 @@ def generator_2(seed, factor, criteria):
         previous = value
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     seed_a, seed_b = map(int, re.findall(r"\d+", text))
     gen_a = generator_2(seed_a, 16807, 4)
     gen_b = generator_2(seed_b, 48271, 8)

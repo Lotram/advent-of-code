@@ -12,11 +12,11 @@ def solution(key, trailing_zeros):
     return idx
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     key = text.strip().encode()
     return solution(key, 5)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     key = text.strip().encode()
     return solution(key, 6)

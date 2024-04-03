@@ -13,7 +13,7 @@ operators = {
 }
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     registers = defaultdict(int)
     for line in text.strip().split("\n"):
         register, op, value, _, cond_register, cond_op, cond_value = line.split()
@@ -25,7 +25,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     registers = defaultdict(int)
     result = 0
     for line in text.strip().split("\n"):

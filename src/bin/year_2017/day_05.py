@@ -1,4 +1,4 @@
-def part_1(text):
+def part_1(text, example: bool = False):
     jumps = list(map(int, text.strip().split("\n")))
     cursor = 0
     result = 0
@@ -11,7 +11,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     jumps = list(map(int, text.strip().split("\n")))
     cursor = 0
     result = 0

@@ -41,7 +41,7 @@ def get_neighbours(node):
             yield (Node(new_position, node.data + dir_name, get_open_doors(data)), 1)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     data = text.strip()
     start = Node(Point(0, 0), data, get_open_doors(data))
     cost, path = a_star(start, stop_condition, get_neighbours, heuristic)
@@ -69,7 +69,7 @@ def modified_dijkstra(start, stop_condition, get_neighbours):
     return max_value
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     data = text.strip()
     start = Node(Point(0, 0), data, get_open_doors(data))
     cost = modified_dijkstra(start, stop_condition, get_neighbours)

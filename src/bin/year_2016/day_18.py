@@ -17,14 +17,13 @@ def solution(prev, rounds):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     prev = list(map(".".__eq__, text.strip()))
     rounds = 9 if len(prev) == 10 else 39
     return solution(prev, rounds)
 
 
-def part_2(text):
-
+def part_2(text, example: bool = False):
     prev = list(map(".".__eq__, text.strip()))
     rounds = 400000 - 1
     return solution(prev, rounds)

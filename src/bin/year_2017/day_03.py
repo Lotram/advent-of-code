@@ -24,7 +24,7 @@ def get_n(value):
     return int(2 * sqrt(value - 3 / 4) - 1)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     value = int(text.strip())
     n = get_n(value)
     corner = get_s_n(n)
@@ -34,7 +34,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     target = int(text.strip())
     data = {(point := Vector(0, 0)): 1}
     dir_it = cycle(DIRECTIONS)

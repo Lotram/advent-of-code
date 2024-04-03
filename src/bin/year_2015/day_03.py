@@ -5,7 +5,7 @@ def add(position, move):
     return (position[0] + move[0], position[1] + move[1])
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     line = text.split("\n")[0]
     current = (0, 0)
     positions = {current}
@@ -15,7 +15,7 @@ def part_1(text):
     return len(positions)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     line = text.split("\n")[0]
     santa = robot = (0, 0)
     positions = {santa}

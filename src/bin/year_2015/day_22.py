@@ -89,13 +89,13 @@ def get_candidates(hard=False):
             yield candidate
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result = min(candidate.mana for candidate in get_candidates())
 
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = min(candidate.mana for candidate in get_candidates(hard=True))
 
     return result

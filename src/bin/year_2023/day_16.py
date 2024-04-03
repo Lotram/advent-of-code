@@ -75,14 +75,14 @@ def parse(grid, start_position, start_direction):
     return {position for position, _ in visited}
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     grid = tuple(tuple(line) for line in text.strip().split("\n"))
     visited = parse(grid, (0, 0), (0, 1))
     result = len(visited)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = tuple(tuple(line) for line in text.strip().split("\n"))
     start = [((idx, 0), (0, 1)) for idx in range(len(grid))]
     start += [((idx, len(grid[0]) - 1), (0, -1)) for idx in range(len(grid))]

@@ -17,7 +17,7 @@ def get_tuples(length, total):
     )
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     values = []
     for line in lines:
@@ -30,7 +30,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     values = []
     for line in lines:

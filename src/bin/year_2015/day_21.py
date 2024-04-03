@@ -42,7 +42,7 @@ def add(*items):
     return Equipment(*map(sum, zip(*items)))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     boss_hp, boss_damage, boss_armor = [
         int(line.split(": ")[1]) for line in text.strip().split("\n")
     ]
@@ -62,7 +62,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     boss_hp, boss_damage, boss_armor = [
         int(line.split(": ")[1]) for line in text.strip().split("\n")
     ]

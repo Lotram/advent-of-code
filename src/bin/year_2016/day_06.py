@@ -1,7 +1,7 @@
 from collections import Counter
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     counters = [Counter() for _ in range(len(lines[0]))]
     for line in lines:
@@ -11,7 +11,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     counters = [Counter() for _ in range(len(lines[0]))]
     for line in lines:

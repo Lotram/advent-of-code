@@ -161,7 +161,7 @@ def push_button(state, counter):
     return len(list(high)), len(list(low))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     state = parse(lines)
     high, low = (0, 0)
@@ -175,7 +175,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     state = parse(lines)
     counter = 0

@@ -38,14 +38,14 @@ def find_reflexions(pattern):
     return find_reflexion(columns)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result = 0
     for pattern in text.strip().split("\n\n"):
         result += find_reflexions(pattern)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = 0
     for pattern in text.strip().split("\n\n"):
         result += find_reflexions(pattern)

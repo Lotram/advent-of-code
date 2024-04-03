@@ -1,4 +1,4 @@
-def part_1(text):
+def part_1(text, example: bool = False):
     steps = int(text.strip())
     buffer = [0]
     current_position = 0
@@ -9,7 +9,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     steps = int(text.strip())
     current_position = 0
     for idx in range(1, 5_000_001):

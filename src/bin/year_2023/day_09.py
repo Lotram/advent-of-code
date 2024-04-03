@@ -13,7 +13,7 @@ def predict(values):
         values = next_line
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.split("\n")
     return sum(predict(list(map(int, pattern.findall(line)))) for line in lines if line)
 
@@ -28,7 +28,7 @@ def predict_2(values):
         values = next_line
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.split("\n")
     return sum(
         predict_2(list(map(int, pattern.findall(line)))) for line in lines if line

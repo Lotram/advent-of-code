@@ -1,4 +1,4 @@
-def part_1(text):
+def part_1(text, example: bool = False):
     digits = list(text.strip())
     result = sum(
         int(digits[idx])
@@ -8,7 +8,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     digits = list(text.strip())
     result = sum(
         int(digits[idx])

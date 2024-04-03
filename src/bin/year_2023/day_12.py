@@ -44,7 +44,7 @@ def parse_line(line):
     return tuple(symbols.split(".")), values
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip(".").split("\n")
     counter = 0
     for line in lines:
@@ -63,7 +63,7 @@ def parse_line_2(line):
     return tuple(symbols.split(".")), values
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = [line for line in text.strip(".").split("\n") if line]
     counter = 0
     for line in lines:

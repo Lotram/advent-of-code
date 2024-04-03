@@ -19,7 +19,7 @@ def get_neighbour_func(extra):
     return _get_neighbours
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     extra = int(text.strip())
     start = Point(1, 1)
     end = Point(7, 4) if extra == 10 else Point(31, 39)
@@ -27,7 +27,7 @@ def part_1(text):
     return result[0]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     extra = int(text.strip())
     start = Point(1, 1)
 

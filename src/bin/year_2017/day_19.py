@@ -26,11 +26,11 @@ def solve(text):
     return "".join(letters), steps
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result, _ = solve(text)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     _, result = solve(text)
     return result

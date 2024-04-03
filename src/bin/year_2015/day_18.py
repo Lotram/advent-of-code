@@ -1,7 +1,7 @@
 from .grid import Grid, Point
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     grid = Grid(
         [[char == "#" for char in line] for line in text.strip().split("\n")], diag=True
     )
@@ -18,7 +18,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = Grid(
         [[char == "#" for char in line] for line in text.strip().split("\n")], diag=True
     )

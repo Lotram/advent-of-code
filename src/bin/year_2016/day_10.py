@@ -23,7 +23,7 @@ class Bot(NamedTuple):
     high: str
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     chips = deque()
     targets = {}
     for line in text.strip().split("\n"):
@@ -55,7 +55,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     chips = deque()
     targets = {}
     for line in text.strip().split("\n"):

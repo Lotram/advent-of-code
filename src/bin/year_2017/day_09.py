@@ -1,7 +1,7 @@
 from itertools import count
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     cursor_it = count()
     group_depth = 0
     result = 0
@@ -26,7 +26,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     cursor_it = count()
     result = 0
     inside_garbage = False

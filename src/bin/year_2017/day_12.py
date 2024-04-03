@@ -29,14 +29,14 @@ def find_subgraph(graph, start):
     return visited
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     graph = build_graph(text)
     visited = find_subgraph(graph, "0")
     result = len(visited)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     graph = build_graph(text)
     result = 0
     remaining_nodes = set(graph)

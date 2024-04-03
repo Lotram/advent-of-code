@@ -47,7 +47,7 @@ def matrix_dijkstra(grid, start_position, end):
     return min_dist[end_node], path[end_node] + [end_node]
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
     result = matrix_dijkstra(
         get_neighbours, grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1)
@@ -104,7 +104,7 @@ def matrix_dijkstra_2(grid, start_position, end):
     return min_dist[end_node], path[end_node] + [end_node]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
     result = matrix_dijkstra_2(grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1))
     return result[0]

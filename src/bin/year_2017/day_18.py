@@ -4,7 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     registers = defaultdict(int)
 
     def value(x):
@@ -90,7 +90,7 @@ class Process:
             self.cursor += 1
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     instructions = list(text.strip().split("\n"))
     p0 = Process(
         pid=0,

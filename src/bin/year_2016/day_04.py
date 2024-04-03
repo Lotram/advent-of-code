@@ -29,14 +29,14 @@ def get_real_rooms(lines):
             yield (name, int(room_id))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     result = sum(room_id for _, room_id in get_real_rooms(lines))
 
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     for name, room_id in get_real_rooms(lines):
         decrypted = rotate(name, room_id)

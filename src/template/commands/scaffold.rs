@@ -35,12 +35,12 @@ mod tests {
 }
 "#;
 
-const PYTHON_TEMPLATE: &str = r#"def part_1(text):
+const PYTHON_TEMPLATE: &str = r#"def part_1(text, example: bool = False):
     result = None
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = None
     return result
 "#;

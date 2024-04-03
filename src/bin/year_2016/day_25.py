@@ -44,7 +44,7 @@ def solution(x):
     return result - x
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     """
     The set of instructions is equivalent to:
 
@@ -74,7 +74,7 @@ def f(x):
                 return
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     registers = dict.fromkeys("abcd", 0)
     registers["c"] = 1
     return solution(text, registers)

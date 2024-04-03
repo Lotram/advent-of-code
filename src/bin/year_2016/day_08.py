@@ -3,7 +3,7 @@ import re
 import numpy as np
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     screen = np.zeros((6, 50), dtype=bool)
     lines = text.strip().split("\n")
     pattern = re.compile(r"\d+")
@@ -22,6 +22,6 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = "EOARGPHYAO"
     return result

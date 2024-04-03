@@ -16,7 +16,7 @@ def is_nice(chars):
     return double_letters and (vowel_counter >= 3)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     return sum(1 for line in lines if is_nice(line))
 
@@ -36,6 +36,6 @@ def is_nice_2(chars):
     return rule_1 and rule_2
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     return sum(1 for line in lines if is_nice_2(line))

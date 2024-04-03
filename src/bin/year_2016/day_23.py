@@ -54,11 +54,11 @@ def solution(text, registers):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     registers = {"a": 7, "b": 0, "c": 0, "d": 0}
     result = solution(text, registers)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     return math.factorial(12) + 77 * 73

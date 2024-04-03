@@ -15,9 +15,9 @@ def solution(text, group_count):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     return solution(text, 3)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     return solution(text, 4)

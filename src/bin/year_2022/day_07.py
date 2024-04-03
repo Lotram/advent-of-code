@@ -22,7 +22,7 @@ def build_tree(lines):
     return tree
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     tree = build_tree(lines)
     result = 0
@@ -32,7 +32,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     total_space = 70_000_000
     required_size = 30_000_000
     lines = text.strip().split("\n")

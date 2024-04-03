@@ -22,7 +22,7 @@ def compare(left, right):
             return compare([left], right)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     pairs = text.strip().split("\n\n")
     return sum(
         idx
@@ -31,7 +31,7 @@ def part_1(text):
     )
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     dividers = ([[2]], [[6]])
     packets = [json.loads(line) for line in text.strip().split("\n") if line]
     packets.extend(dividers)

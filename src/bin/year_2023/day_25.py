@@ -3,7 +3,7 @@ from operator import methodcaller
 from .karger_min_cut import Edge, Graph
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     vertices = set()
     edges = []
@@ -21,6 +21,6 @@ def part_1(text):
             return size_1 * size_2
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = None
     return result

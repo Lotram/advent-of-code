@@ -47,7 +47,7 @@ class Grid(list):
         ]
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     grid = Grid(list(line) for line in text.strip().split("\n"))
     start = grid.find("S")
     end = grid.find("E")
@@ -57,7 +57,7 @@ def part_1(text):
     return dist
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = Grid(list(line) for line in text.strip().split("\n"))
     start = grid.find("S")
     end = grid.find("E")

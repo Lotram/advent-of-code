@@ -11,9 +11,9 @@ def solution(text, loop_count):
     return len(result)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     return solution(text, 40)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     return solution(text, 50)

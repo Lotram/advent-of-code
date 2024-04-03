@@ -80,9 +80,9 @@ def _solution(text, part):
     return monkeys.monkey_business()
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     return _solution(text, part=1)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     return _solution(text, part=2)

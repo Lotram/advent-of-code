@@ -22,7 +22,7 @@ def process(data, length):
     return data[:length]
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     data = text.strip()
     length = 20 if data == "10000" else 272
     data = process(data, length)
@@ -30,7 +30,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     data = text.strip()
     length = 20 if data == "10000" else 35651584
     data = process(data, length)

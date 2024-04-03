@@ -28,7 +28,7 @@ def build_matrix(distances):
     return dists
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     distances = build_mapping(lines)
     distance_matrix = build_matrix(distances)
@@ -36,7 +36,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     distances = build_mapping(lines)
     distance_matrix = build_matrix(distances)

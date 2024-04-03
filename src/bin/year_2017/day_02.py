@@ -1,7 +1,7 @@
 from itertools import combinations
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result = 0
     for line in text.strip().split("\n"):
         numbers = list(map(int, line.split()))
@@ -9,7 +9,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = 0
     for line in text.strip().split("\n"):
         numbers = list(map(int, line.split()))

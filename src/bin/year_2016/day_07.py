@@ -23,7 +23,7 @@ def parse(line):
     return has_abba
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     result = sum(1 for line in lines if parse(line))
     return result
@@ -52,7 +52,7 @@ def parse_2(line):
     return bool(inside_abas & outside_abas)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     result = sum(1 for line in lines if parse_2(line))
     return result

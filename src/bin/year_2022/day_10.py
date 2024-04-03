@@ -24,7 +24,7 @@ def parse(lines):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     return parse(lines)
 
@@ -62,6 +62,6 @@ def display(rows):
         print("".join(row))
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     display(parse_2(lines))

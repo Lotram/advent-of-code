@@ -32,7 +32,7 @@ def knot_hash(text):
     return "".join(f"{value:0>2x}" for value in dense)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     size = 256
     lengths = map(int, text.split(","))
     values = knot_hash_round(size, lengths)
@@ -40,6 +40,6 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     result = knot_hash(text)
     return result

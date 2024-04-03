@@ -16,12 +16,12 @@ def build_array(text):
     ]
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result = np.sum(build_array(text))
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = Grid(build_array(text))
     result = 0
     visited = set()

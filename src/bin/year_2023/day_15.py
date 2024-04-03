@@ -8,12 +8,12 @@ def _hash(text):
     return current_value
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     result = sum(_hash(data) for data in text.strip("\n").split(","))
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     operations = text.strip("\n").split(",")
     boxes = [{} for _ in range(256)]
     for op in operations:

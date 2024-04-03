@@ -1,7 +1,7 @@
 from functools import cache
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     start = next(
         (row, col)
@@ -38,7 +38,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     size = len(lines)
     assert len(lines[0]) == size

@@ -14,7 +14,7 @@ def switch(grid, start_x, start_y, end_x, end_y, val):
 values = {"toggle": None, "turn on": True, "turn off": False}
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     grid = [[False for _ in range(1000)] for _ in range(1000)]
     for line in lines:
@@ -37,7 +37,7 @@ def switch_2(grid, start_x, start_y, end_x, end_y, func):
             grid[x][y] = func(grid[x][y])
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     grid = [[0 for _ in range(1000)] for _ in range(1000)]
     for line in lines:

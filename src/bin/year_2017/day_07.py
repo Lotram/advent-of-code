@@ -42,13 +42,13 @@ def get_programs(text) -> dict[str, Program]:
     return root
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     root = get_programs(text)
     result = root.name
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     root = get_programs(text)
     current = root
     faulty = None

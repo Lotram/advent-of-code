@@ -69,7 +69,7 @@ class Line(NamedTuple):
         return cls(tuple(map(int, point.split(","))), tuple(map(int, speed.split(","))))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = [Line.parse(line) for line in text.strip().split("\n")]
     return sum(1 for line, other in combinations(lines, 2) if line.intersect(other))
 
@@ -89,7 +89,7 @@ mathematica_query = """    Solve[
 
 
 # TODO: Try https://docs.sympy.org/latest/guides/solving/solve-system-of-equations-algebraically.html
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = [Line.parse(line) for line in text.strip().split("\n")]
     (x, y, z) = zip(*map(attrgetter("start"), lines))
     (a, b, c) = zip(*map(attrgetter("speed"), lines))

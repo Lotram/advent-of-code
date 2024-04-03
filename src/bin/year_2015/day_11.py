@@ -68,14 +68,14 @@ def solution_2(password):
     return password
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     password = list(text.strip())
     password = next_without_forbidden(password)
     password = "".join(solution_2(password))
     return password
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     password = list(text.strip())
     password = next_without_forbidden(password)
     password = solution_2(password)

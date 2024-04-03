@@ -28,7 +28,7 @@ def get_neighbour_func(grid: Grid):
     return get_neighbours
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
         starmap(Point, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
@@ -64,7 +64,7 @@ def part_1(text):
     return cost
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
         starmap(Point, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),

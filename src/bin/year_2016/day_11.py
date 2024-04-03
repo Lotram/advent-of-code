@@ -67,7 +67,6 @@ def get_neighbours(node):
             else combinations(floor, 1)
         )
         for items in map(frozenset, iterator):
-
             new_floors = list(_floor.copy() for _floor in node.floors)
             new_floors[new_id] |= items
             new_floors[node.current_id] -= items
@@ -117,11 +116,11 @@ def solution(lines):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     return solution(text.strip().split("\n"))
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     additional_elems = (
         "a elerium generator, a elerium-compatible microchip"

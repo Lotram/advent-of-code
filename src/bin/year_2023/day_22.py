@@ -31,7 +31,7 @@ class Brick(BaseModel):
         self.end.z = z + height - 1
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     bricks = sorted(
         (Brick.parse(line) for line in lines), key=attrgetter("start.z", "end.z")
@@ -74,7 +74,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     bricks = sorted(
         (Brick.parse(line) for line in lines), key=attrgetter("start.z", "end.z")

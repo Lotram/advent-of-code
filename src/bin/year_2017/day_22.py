@@ -28,7 +28,7 @@ def next_direction(direction: Vector, count: int):
     return DIRECTIONS[(DIRECTIONS.index(direction) + turn) % len(DIRECTIONS)]
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     infection_count = defaultdict(int, parse_input(text, infected_value=1))
     current = Vector(0, 0)
     direction = NORTH
@@ -56,7 +56,7 @@ def next_direction_2(direction: Vector, count: int):
     return DIRECTIONS[(DIRECTIONS.index(direction) + turn) % len(DIRECTIONS)]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     infection_count = defaultdict(int, parse_input(text, infected_value=2))
     current = Vector(0, 0)
     direction = NORTH

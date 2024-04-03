@@ -15,13 +15,13 @@ def distance(position):
     return col + max(0, row - col) // 2
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     end = sum((directions[_dir] for _dir in text.strip().split(",")), Vector(0, 0))
     result = distance(end)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     position = Vector(0, 0)
     result = 0
     for direction in text.strip().split(","):

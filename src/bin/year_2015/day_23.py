@@ -37,14 +37,14 @@ def solution(instructions, registers):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     # input looks like https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse
     instructions = [line.split() for line in text.strip().split("\n")]
     registers = {"a": 0, "b": 0}
     return solution(instructions, registers)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     instructions = [line.split() for line in text.strip().split("\n")]
     registers = {"a": 1, "b": 0}
     return solution(instructions, registers)

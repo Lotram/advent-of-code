@@ -1,7 +1,7 @@
 from .grid import Point, Vector
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     current_position = Point(0, 0)
     current_direction = Vector(1, 0)
     for direction, *count in text.strip().split(", "):
@@ -16,7 +16,7 @@ def part_1(text):
     return abs(current_position.row) + abs(current_position.col)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     current_position = Point(0, 0)
     current_direction = Vector(1, 0)
     visited = {current_position}

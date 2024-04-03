@@ -20,7 +20,7 @@ class Marker(Token):
     multiplier: int
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     text = text.strip()
     pattern = re.compile(r"\((?P<char_count>\d+)x(?P<multiplier>\d+)\)")
     cursor = -1
@@ -36,7 +36,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     text = text.strip()
     pattern = re.compile(r"\((?P<char_count>\d+)x(?P<multiplier>\d+)\)")
     tokens = deque()

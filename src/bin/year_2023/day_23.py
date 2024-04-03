@@ -69,7 +69,7 @@ class Grid:
         return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     grid = Grid(lines, part=1)
     return grid.get_longest_path()
@@ -187,7 +187,7 @@ class Grid2:
         return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     grid = Grid2(lines)
     return grid.get_longest_path()

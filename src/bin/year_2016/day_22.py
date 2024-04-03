@@ -29,7 +29,7 @@ def parse(text: str) -> list[Node]:
     return disks
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     disks = [node.disk for node in parse(text)]
     availables = sorted(map(attrgetter("available"), disks), reverse=True)
     result = 0
@@ -54,7 +54,7 @@ def get_value(node):
         return "."
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     """
     The input as the same shape as the exemple:
     * 1 empty node

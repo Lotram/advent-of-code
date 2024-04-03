@@ -1,4 +1,4 @@
-def part_1(text):
+def part_1(text, example: bool = False):
     return sum(
         1
         for passphrase in text.strip().split("\n")
@@ -10,7 +10,7 @@ def get_anagrams(words):
     return {"".join(sorted(word)) for word in words}
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     return sum(
         1
         for passphrase in text.strip().split("\n")

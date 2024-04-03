@@ -20,7 +20,6 @@ def get_hash_2(salt, index):
 
 def build_class(salt, get_hash):
     class Hash:
-
         def __init__(self, idx):
             self.idx = idx
             self.digest = get_hash(salt, idx)
@@ -72,11 +71,11 @@ def solution(salt, get_hash):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     salt = text.strip().encode()
     return solution(salt, get_hash)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     salt = text.strip().encode()
     return solution(salt, get_hash_2)

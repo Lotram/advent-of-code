@@ -116,7 +116,7 @@ def parse_part(part):
     return Part(*tuple(map(int, part_pattern.match(part).groups())))
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     workflows, parts = text.strip().split("\n\n")
     workflows = [parse_workflow(workflow) for workflow in workflows.split("\n")]
     workflows = {workflow.name: workflow for workflow in workflows}
@@ -158,7 +158,7 @@ class Range(BaseModel):
         )
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     workflows, parts = text.strip().split("\n\n")
     workflows = [parse_workflow(workflow) for workflow in workflows.split("\n")]
     workflows = {workflow.name: workflow for workflow in workflows}

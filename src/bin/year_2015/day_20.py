@@ -46,7 +46,7 @@ def part_1_recursive(text):
     return result
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     value = int(text.strip())
     result = 1
     while sum(divisor for divisor in divisors(result, generator=True)) * 10 < value:
@@ -55,7 +55,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     value = int(text.strip())
     result = 1
     while (

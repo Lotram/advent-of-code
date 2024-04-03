@@ -54,7 +54,7 @@ def get_turn(previous_dir, dir):
         raise ValueError("invalid turn", previous_dir, dir)
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = [parse_line(line) for line in text.strip().split("\n")]
     turns = []
     previous_direction = lines[-1][0]
@@ -98,7 +98,7 @@ def parse_line_2(line):
     return directions[color[-2]], value, color[2:-1]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = [parse_line_2(line) for line in text.strip().split("\n")]
     sizes = {"R": 0, "L": 0, "U": 0, "D": 0}
     turns = []

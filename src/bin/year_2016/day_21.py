@@ -34,7 +34,7 @@ def move(password, x, y, reverse=False):
     return password
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     password = list("abcdefgh")
 
     for operation in text.strip().split("\n"):
@@ -59,7 +59,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     password = list("fbgdceah")
     for operation in text.strip().split("\n")[::-1]:
         match operation.split():

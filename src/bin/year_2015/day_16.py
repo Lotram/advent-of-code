@@ -14,7 +14,7 @@ data = {
 }
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     for idx, line in enumerate(lines, start=1):
         args = line.split(":", maxsplit=1)[1].split(", ")
@@ -39,7 +39,7 @@ op = {
 }
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     for idx, line in enumerate(lines, start=1):
         args = line.split(":", maxsplit=1)[1].split(", ")

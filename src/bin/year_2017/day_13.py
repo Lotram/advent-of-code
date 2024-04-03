@@ -5,7 +5,7 @@ from sympy.ntheory.modular import symmetric_residue
 pattern = re.compile(r"\d+")
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     values = [map(int, pattern.findall(line)) for line in text.strip().split("\n")]
     result = sum(
         depth * range
@@ -15,7 +15,7 @@ def part_1(text):
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     values = [
         tuple(map(int, pattern.findall(line))) for line in text.strip().split("\n")
     ]

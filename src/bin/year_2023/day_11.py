@@ -49,14 +49,14 @@ def get_answer(lines, expand_length):
     return total_distance
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     expand_length = 2
     lines = [list(line) for line in text.strip().split("\n")]
     result = get_answer(lines, expand_length)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     expand_length = 1_000_000
     lines = [list(line) for line in text.strip().split("\n")]
     result = get_answer(lines, expand_length)

@@ -13,7 +13,7 @@ def parse(obj):
             return 0
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     input_ = json.loads(text)
     result = parse(input_)
     return result
@@ -33,7 +33,7 @@ def parse_2(obj):
             return 0
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     input_ = json.loads(text)
     result = parse_2(input_)
     return result

@@ -8,7 +8,7 @@ def results(size, values):
             return results(size - values[-1], values[:-1]) + results(size, values[:-1])
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     size = 150
     values = list(map(int, text.strip().split("\n")))
     return results(size, values)
@@ -31,7 +31,7 @@ def results_2(size, values, used=0):
                 return result_2, tot_used_2
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     size = 150
     values = list(map(int, text.strip().split("\n")))
     return results_2(size, values)[0]

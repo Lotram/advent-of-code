@@ -25,12 +25,12 @@ def solution(lines, total_duration):
     return result, winners
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     return solution(lines, TOTAL_DURATION)[0]
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     scores = Counter()
     for idx in range(1, TOTAL_DURATION + 1):

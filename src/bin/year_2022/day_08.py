@@ -2,7 +2,7 @@ import math
 from collections import defaultdict
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     row_count = len(lines)
     col_count = len(lines[0])
@@ -41,7 +41,7 @@ def part_1(text):
     return len(visible)
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     row_count = len(lines)
     col_count = len(lines[0])

@@ -3,7 +3,7 @@ from operator import methodcaller
 from string import ascii_uppercase
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
     transformations = lines[:-2]
     molecule = lines[-1]
@@ -27,7 +27,7 @@ def sort_key(transformation):
     )
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
     result = 0
 

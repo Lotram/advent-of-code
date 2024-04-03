@@ -15,14 +15,14 @@ def dance(moves, programs):
     return programs
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     programs = [chr(idx) for idx in range(ord("a"), ord("p") + 1)]
     programs = dance(text.strip().split(","), programs)
     result = "".join(programs)
     return result
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     programs = [chr(idx) for idx in range(ord("a"), ord("p") + 1)]
     seen = {}
     counter = 0

@@ -63,7 +63,7 @@ def get_positions(lines):
     return positions
 
 
-def part_1(text):
+def part_1(text, example: bool = False):
     lines = [list(line) for line in text.split("\n") if line]
     positions = get_positions(lines)
     return len(positions) / 2
@@ -74,7 +74,7 @@ class Position(NamedTuple):
     column: int
 
 
-def part_2(text):
+def part_2(text, example: bool = False):
     lines = [list(line) for line in text.split("\n") if line]
     positions = [Position(*position) for position in get_positions(lines)]
     char_by_pos = {pos: lines[pos.row][pos.column] for pos in positions}
