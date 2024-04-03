@@ -9,7 +9,7 @@ dependencies = [
     "ipython>=8.18.1",
     "isort>=5.12.0",
     "black>=23.11.0",
-    "typer>=0.9.0",
+    "typer[rich]>=0.9.0",
     "pydantic>=2.5.2",
     "ipdb>=0.13.13",
     "Pillow>=10.1.0",
@@ -21,4 +21,7 @@ readme = "README.md"
 license = {text = "MIT"}
 
 [tool.pdm.scripts]
-solve = {call = "main:app"}
+cli = {call = "pycli.main:app"}
+solve = {composite = ["cli solve"]}
+download = {composite = ["cli download"]}
+scaffold = {composite = ["cli scaffold"]}
