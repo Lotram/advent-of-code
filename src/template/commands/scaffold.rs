@@ -61,8 +61,8 @@ pub fn handle(day: Day, python: bool, rust: bool) {
     let year = get_year().unwrap();
     let input_path = format!("data/inputs/{year}/{day}.txt");
     let example_path = format!("data/examples/{year}/{day}.txt");
-    let module_path = format!("src/bin/{day}.rs");
-    let python_path = format!("src/bin/day_{day}.py");
+    let module_path = format!("src/bin/year_{year}/{day}.rs");
+    let python_path = format!("src/bin/year_{year}/day_{day}.py");
 
     if rust {
         let mut file = match safe_create_file(&module_path) {

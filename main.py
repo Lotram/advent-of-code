@@ -1,9 +1,9 @@
 import importlib
 import subprocess
-import tomllib
 from pathlib import Path
 from time import perf_counter
 
+import tomllib
 import typer
 
 app = typer.Typer(no_args_is_help=True)
@@ -15,7 +15,7 @@ def run(year, day, part, example):
     data = Path("data") / data_dir / year / f"{day:02}.txt"
     if not data.is_file():
         subprocess.run(f"cargo download {day}", shell=True)
-    package = importlib.import_module(f"src.bin.{file_name}")
+    package = importlib.import_module(f"src.bin.year_{year}.{file_name}")
     func = getattr(package, f"part_{part}")
     return func(data.read_text())
 
@@ -57,7 +57,7 @@ def main(
         errors = []
         for _day in range(start, end + 1):
             for _part in [1, 2]:
-                if Path(f"src/bin/day_{_day:02}.py").is_file():
+                if Path(f"src/bin/year_{year}/day_{_day:02}.py").is_file():
                     print(f"day {_day:02} - {_part}")
                     try:
                         _main(year, _day, _part, example, False, time)
