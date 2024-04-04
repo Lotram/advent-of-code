@@ -9,7 +9,7 @@ from pycli.utils import get_solution_path
 
 app = typer.Typer(no_args_is_help=True)
 
-YEAR: None | int = 2017
+YEAR: None | int = 2015
 
 Year = Annotated[Optional[int], typer.Option("--year", "-y")]
 

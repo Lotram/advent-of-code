@@ -25,7 +25,7 @@ def get_example_path(day: int, year: int) -> Path:
 
 
 def get_solution_path(day: int, year: int) -> Path:
-    path = Path("src") / "bin" / str(year) / f"day_{day:02}.py"
+    path = Path("pycli") / "src" / "bin" / f"year_{year}" / f"day_{day:02}.py"
     path.parent.mkdir(exist_ok=True)
     return path
 
