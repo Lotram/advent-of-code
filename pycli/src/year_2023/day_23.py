@@ -23,6 +23,7 @@ class Path(NamedTuple):
     subpath_start: Point
 
 
+# TODO replace with grid file
 class Grid:
     def __init__(self, lines, part):
         self.row_size = len(lines)

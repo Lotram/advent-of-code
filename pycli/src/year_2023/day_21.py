@@ -28,13 +28,12 @@ def part_1(text, example: bool = False):
         if n == 0:
             return {start}
         n_1 = get_tiles(n - 1)
-        print(n - 1, len(n_1))
         result = set()
         for tile in n_1:
             result |= get_neigbhours(tile)
         return result
 
-    result = len(get_tiles(10))
+    result = len(get_tiles(64))
     return result
 
 

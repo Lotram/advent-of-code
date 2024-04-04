@@ -49,9 +49,7 @@ def matrix_dijkstra(grid, start_position, end):
 
 def part_1(text, example: bool = False):
     grid = tuple(tuple(map(int, line)) for line in text.strip().split("\n"))
-    result = matrix_dijkstra(
-        get_neighbours, grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1)
-    )
+    result = matrix_dijkstra(grid, (0, 0), (len(grid) - 1, len(grid[0]) - 1))
     return result[0]
 
 

@@ -1,10 +1,8 @@
 from collections import Counter
 from enum import IntEnum
+from typing import ClassVar
 
 from pydantic import BaseModel
-
-# card_order = "AKQJT98765432"[::-1]
-card_order = "AKQT98765432J"[::-1]
 
 
 class HandType(IntEnum):
@@ -20,10 +18,13 @@ class HandType(IntEnum):
 class Hand(BaseModel):
     cards: str
     bidding: int
+    card_order: ClassVar[str] = "AKQJT98765432"[::-1]
 
     def get_hand_type(self):
         counter = Counter(self.cards)
         most_commons = counter.most_common(2)
+
+        # change this block for part 1
         if most_commons[0][0] == "J":
             if len(most_commons) > 1:
                 counter = Counter(self.cards.replace("J", most_commons[1][0]))
@@ -59,11 +60,11 @@ class Hand(BaseModel):
         else:
             for mine, other in zip(self.cards, other.cards):
                 if mine != other:
-                    return card_order.index(mine) < card_order.index(other)
+                    return self.card_order.index(mine) < self.card_order.index(other)
 
 
-def part_1(lines):
-    lines = lines.strip().split("\n")
+def part_1(text, example=False):
+    lines = text.strip().split("\n")
     hands = []
     for line in lines:
         cards, bidding = line.split()
@@ -74,12 +75,16 @@ def part_1(lines):
     return result
 
 
-def part_2(lines):
-    lines = lines.strip().split("\n")
+class Hand2(Hand):
+    card_order: ClassVar[str] = "AKQT98765432J"[::-1]
+
+
+def part_2(text, example=False):
+    lines = text.strip().split("\n")
     hands = []
     for line in lines:
         cards, bidding = line.split()
-        hands.append(Hand(cards=cards, bidding=bidding))
+        hands.append(Hand2(cards=cards, bidding=bidding))
 
     sorted_hands = sorted(hands)
     result = sum(idx * hand.bidding for idx, hand in enumerate(sorted_hands, 1))

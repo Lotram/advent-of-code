@@ -5,7 +5,7 @@ from itertools import cycle, product
 PATTERN = re.compile(r"(?P<position>\w{3}) = \((?P<left>\w{3}), (?P<right>\w{3})\)")
 
 
-def part_1(lines):
+def part_1(text, example=False):
     result = None
     print(result)
 
@@ -29,8 +29,8 @@ def get_ending_node_positions(node_cycle):
     return {idx for idx, node in enumerate(node_cycle) if node[0][-1] == "Z"}
 
 
-def part_2(lines):
-    lines = lines.split("\n")
+def part_2(text, example=False):
+    lines = text.split("\n")
     directions = lines[0]
     nodes = {}
     for line in lines[2:]:

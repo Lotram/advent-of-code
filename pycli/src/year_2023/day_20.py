@@ -72,7 +72,6 @@ class Conjunction(Module):
         value = not all(self.state.values())
         if value and not self.cycle:
             self.cycle = pulse.counter
-            print(f"{self.name}: {self.cycle}")
         return value
 
 
@@ -166,7 +165,7 @@ def part_1(text, example: bool = False):
     state = parse(lines)
     high, low = (0, 0)
     for _ in range(1000):
-        _high, _low = push_button(state)
+        _high, _low = push_button(state, 0)
         high += _high
         low += _low
 
