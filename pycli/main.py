@@ -38,7 +38,7 @@ def solve(
         errors = []
         for _day in days:
             for _part in [1, 2]:
-                if _day == 25 and part == 2:
+                if _day == 25 and _part == 2:
                     continue
                 path = get_solution_path(_day, year)
                 if path.is_file():

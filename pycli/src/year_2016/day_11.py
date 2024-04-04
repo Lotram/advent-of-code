@@ -18,7 +18,7 @@ def other_type(type):
 
 class Node(NamedTuple):
     current_id: int
-    floors: tuple[frozenset[Item]]
+    floors: tuple[frozenset[Item], ...]
 
     def is_valid(self):
         for floor in self.floors:
@@ -112,7 +112,7 @@ def solution(lines):
             frozenset(chain.from_iterable(start.floors)),
         ),
     )
-    result = a_star(start, end, get_neighbours, heuristic)[0]
+    result = a_star(start, end, get_neighbours, heuristic=heuristic)[0]
     return result
 
 

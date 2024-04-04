@@ -49,7 +49,7 @@ def get_neighbours(node):
 def part_1(text, example: bool = False):
     data = text.strip()
     start = Node(Vector(0, 0), data, get_open_doors(data))
-    cost, path = a_star(start, stop_condition, get_neighbours, heuristic)
+    cost, path = a_star(start, stop_condition, get_neighbours, heuristic=heuristic)
     result = path[-1].data.removeprefix(data)
 
     return result
