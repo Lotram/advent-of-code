@@ -1,7 +1,7 @@
 import re
 from collections import defaultdict
 
-from .held_karp import held_karp_bitmask, shortest_hamiltionan_path
+from pycli.src.held_karp import held_karp_bitmask, shortest_hamiltionan_path
 
 pattern = re.compile(
     r"(?P<start>\w+) would (?P<sign>gain|lose) (?P<value>\d+) happiness units by sitting next to (?P<stop>\w+)."

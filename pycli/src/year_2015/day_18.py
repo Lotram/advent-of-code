@@ -1,4 +1,4 @@
-from .grid import Grid, Point
+from pycli.src.grid import Grid, Vector
 
 
 def part_1(text, example: bool = False):
@@ -24,10 +24,10 @@ def part_2(text, example: bool = False):
     )
     cycles = 100
     corners = [
-        Point(0, grid.col_size - 1),
-        Point(0, 0),
-        Point(grid.row_size - 1, 0),
-        Point(grid.row_size - 1, grid.col_size - 1),
+        Vector(0, grid.col_size - 1),
+        Vector(0, 0),
+        Vector(grid.row_size - 1, 0),
+        Vector(grid.row_size - 1, grid.col_size - 1),
     ]
 
     for point in corners:

@@ -1,11 +1,11 @@
-from .grid import EAST, NORTH, SOUTH, WEST, Grid, Point
+from pycli.src.grid import EAST, NORTH, SOUTH, WEST, Grid, Vector
 
 DIRECTIONS = {"U": NORTH, "L": WEST, "D": SOUTH, "R": EAST}
 
 
 def part_1(text, example: bool = False):
     lines = text.strip().split("\n")
-    position = Point(1, 1)
+    position = Vector(1, 1)
     code = []
     keypad = Grid(arr=[[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
@@ -20,7 +20,7 @@ def part_1(text, example: bool = False):
 
 def part_2(text, example: bool = False):
     lines = text.strip().split("\n")
-    position = Point(1, 1)
+    position = Vector(1, 1)
     code = []
     keypad = Grid(
         arr=[

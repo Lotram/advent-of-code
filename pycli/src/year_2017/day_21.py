@@ -2,7 +2,7 @@ from itertools import batched
 
 import numpy as np
 
-from .grid import Grid
+from pycli.src.grid import Grid
 
 pattern = """.#.
 ..#

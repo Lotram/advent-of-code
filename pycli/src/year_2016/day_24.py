@@ -2,9 +2,9 @@ from itertools import starmap
 
 import numpy as np
 
-from .dijkstra import dijkstra
-from .grid import Grid, Point
-from .held_karp import held_karp_bitmask
+from pycli.src.dijkstra import dijkstra
+from pycli.src.grid import Grid, Vector
+from pycli.src.held_karp import held_karp_bitmask
 
 
 def stop_cond_func(nodes):
@@ -20,7 +20,7 @@ def stop_cond_func(nodes):
 
 
 def get_neighbour_func(grid: Grid):
-    def get_neighbours(node: Point):
+    def get_neighbours(node: Vector):
         for neighbour, value in grid.neighbours(node):
             if value != "#":
                 yield (neighbour, 1)
@@ -31,7 +31,7 @@ def get_neighbour_func(grid: Grid):
 def part_1(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
-        starmap(Point, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
+        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
         key=lambda node: int(grid[node]),
     )
     get_neighbours = get_neighbour_func(grid)
@@ -67,7 +67,7 @@ def part_1(text, example: bool = False):
 def part_2(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
-        starmap(Point, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
+        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
         key=lambda node: int(grid[node]),
     )
     get_neighbours = get_neighbour_func(grid)

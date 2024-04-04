@@ -61,10 +61,12 @@ def solution_2(password):
         password[3] = "a"
 
     ord_ = ord(password[3])
+    # This does not work if password[4] > chr(ord_)
     password[4] = chr(ord_)
     password[5] = chr(ord_ + 1)
     password[6] = chr(ord_ + 2)
     password[7] = chr(ord_ + 2)
+    print(password)
     return password
 
 

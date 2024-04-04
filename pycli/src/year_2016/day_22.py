@@ -5,7 +5,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-from .grid import Grid, Point
+from pycli.src.grid import Grid, Vector
 
 PATTERN = re.compile(r"\d+")
 
@@ -16,7 +16,7 @@ class Disk(NamedTuple):
 
 
 class Node(NamedTuple):
-    point: Point
+    point: Vector
     disk: Disk
 
 
@@ -24,7 +24,7 @@ def parse(text: str) -> list[Node]:
     disks = []
     for line in text.strip().split("\n")[2:]:
         row, col, total, used, available, used_percent = map(int, PATTERN.findall(line))
-        disks.append(Node(Point(row, col), Disk(used, available)))
+        disks.append(Node(Vector(row, col), Disk(used, available)))
 
     return disks
 
@@ -66,15 +66,15 @@ def part_2(text, example: bool = False):
     """
     nodes = parse(text)
     row_size = nodes[-1].point.row + 1
-    values = [get_value(node, row_size) for node in nodes]
+    values = [get_value(node) for node in nodes]
     grid = Grid(np.array(np.split(np.array(values), row_size)))
     empty = grid.find("_")
     first_full = grid.find("#")
-    assert all(grid[Point(row)] == "#" for row in range(first_full.row, row_size))
-    first_available = Point(first_full.row - 1, first_full.col)
+
+    first_available = Vector(first_full.row - 1, first_full.col)
     result = int(
         (empty - first_available).norm(p=1)
-        + (first_available - Point(row_size - 2, 0)).norm(p=1)
+        + (first_available - Vector(row_size - 2, 0)).norm(p=1)
         + 5 * (row_size - 2)
         + 1
     )

@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from .grid import Vector2D as Vector
+from pycli.src.grid import Vector2D as Vector
 
 # (x, y) coordinates
 DIRECTIONS = [

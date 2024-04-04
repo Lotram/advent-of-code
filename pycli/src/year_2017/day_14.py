@@ -2,8 +2,9 @@ from collections import deque
 
 import numpy as np
 
+from pycli.src.grid import Grid
+
 from .day_10 import knot_hash
-from .grid import Grid
 
 
 def build_array(text):

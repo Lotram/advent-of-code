@@ -2,23 +2,28 @@ import heapq
 from hashlib import md5
 from typing import NamedTuple
 
-from .dijkstra import a_star
-from .grid import Point
+from pycli.src.dijkstra import a_star
+from pycli.src.grid import Vector
 
 inf = float("inf")
 
 
-DIRECTIONS = {"U": Point(-1, 0), "D": Point(1, 0), "L": Point(0, -1), "R": Point(0, 1)}
+DIRECTIONS = {
+    "U": Vector(-1, 0),
+    "D": Vector(1, 0),
+    "L": Vector(0, -1),
+    "R": Vector(0, 1),
+}
 
 
 class Node(NamedTuple):
-    position: Point
+    position: Vector
     data: str
     open_doors: tuple[bool, bool, bool, bool]
 
 
 def stop_condition(node):
-    return node.position == Point(3, 3)
+    return node.position == Vector(3, 3)
 
 
 def heuristic(node):
@@ -43,7 +48,7 @@ def get_neighbours(node):
 
 def part_1(text, example: bool = False):
     data = text.strip()
-    start = Node(Point(0, 0), data, get_open_doors(data))
+    start = Node(Vector(0, 0), data, get_open_doors(data))
     cost, path = a_star(start, stop_condition, get_neighbours, heuristic)
     result = path[-1].data.removeprefix(data)
 
@@ -71,7 +76,7 @@ def modified_dijkstra(start, stop_condition, get_neighbours):
 
 def part_2(text, example: bool = False):
     data = text.strip()
-    start = Node(Point(0, 0), data, get_open_doors(data))
+    start = Node(Vector(0, 0), data, get_open_doors(data))
     cost = modified_dijkstra(start, stop_condition, get_neighbours)
 
     return cost

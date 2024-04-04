@@ -1,6 +1,6 @@
 import numpy as np
 
-from .grid import DIRECTIONS, SOUTH, Grid
+from pycli.src.grid import DIRECTIONS, SOUTH, Grid
 
 
 def solve(text):

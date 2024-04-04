@@ -3,7 +3,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from itertools import batched, starmap
 
-from .grid import Vector3D
+from pycli.src.grid import Vector3D
 
 
 @dataclass(slots=True)

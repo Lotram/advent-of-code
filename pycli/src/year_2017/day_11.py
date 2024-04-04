@@ -1,4 +1,4 @@
-from .grid import Vector
+from pycli.src.grid import Vector
 
 directions = {
     "ne": Vector(1, 1),

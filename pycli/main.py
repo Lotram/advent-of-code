@@ -5,7 +5,7 @@ import typer
 from pycli.download import download as _download
 from pycli.scaffold import scaffold as _scaffold
 from pycli.solve import solve as _solve
-from pycli.utils import get_solution_path
+from pycli.utils import get_solution_path, parse_days
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -20,6 +20,7 @@ def solve(
     part: Annotated[Optional[int], typer.Option("--part", "-p")] = None,
     year: Year = YEAR,
     example: Annotated[bool, typer.Option("--example", "-e")] = False,
+    check: Annotated[bool, typer.Option()] = False,
     submit: Annotated[bool, typer.Option()] = False,
     time: Annotated[bool, typer.Option("--time", "-t")] = False,
 ):
@@ -28,23 +29,24 @@ def solve(
 
     assert year is not None
 
-    if day == "all":
-        day = "1-25"
-
-    if day.isdigit():
+    days = parse_days(day)
+    if len(days) == 1:
         assert part is not None
-        _solve(int(day), year, part, example, submit, time)
+        _solve(days[0], year, part, example, check, submit, time)
 
     else:
-        start, end = map(int, day.split("-"))
         errors = []
-        for _day in range(start, end + 1):
+        for _day in days:
             for _part in [1, 2]:
+                if _day == 25 and part == 2:
+                    continue
                 path = get_solution_path(_day, year)
                 if path.is_file():
                     print(f"day {_day:02} - {_part}")
                     try:
-                        _solve(_day, year, _part, example, submit=False, time=time)
+                        _solve(
+                            _day, year, _part, example, check, submit=False, time=time
+                        )
                     except Exception as error:
                         print(f"Error: {error}")
                         errors.append((_day, _part))
@@ -56,11 +58,13 @@ def solve(
 
 @app.command()
 def download(
-    day: Annotated[int, typer.Argument()],
+    day: Annotated[str, typer.Argument()],
     year: Year = YEAR,
 ):
     assert year is not None
-    _download(day, year)
+    days = parse_days(day)
+    for _day in days:
+        _download(_day, year)
 
 
 @app.command()

@@ -1,6 +1,6 @@
 from operator import methodcaller
 
-from .karger_min_cut import Edge, Graph
+from pycli.src.karger_min_cut import Edge, Graph
 
 
 def part_1(text, example: bool = False):

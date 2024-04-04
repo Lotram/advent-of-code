@@ -1,7 +1,7 @@
 from itertools import chain, count, cycle, repeat
 from math import sqrt
 
-from .grid import DIAG_DIRECTIONS, EAST, NORTH, SOUTH, WEST, Vector
+from pycli.src.grid import DIAG_DIRECTIONS, EAST, NORTH, SOUTH, WEST, Vector
 
 DIRECTIONS = [EAST, NORTH, WEST, SOUTH]
 

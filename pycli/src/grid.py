@@ -1,32 +1,31 @@
-from dataclasses import dataclass
 from itertools import starmap
+from typing import NamedTuple, Self
 
 import numpy as np
 
 
-class AbstractVector:
-
+class VectorMixin:
     @property
     def fields(self):
-        return tuple(self.__dataclass_fields__)
+        return self._fields
 
-    def __add__(self, vec: "AbstractVector") -> "AbstractVector":
+    def __add__(self, vec: Self) -> Self:
         kwargs = {
             field: getattr(self, field) + getattr(vec, field) for field in self.fields
         }
         return self.__class__(**kwargs)
 
-    def __sub__(self, other: "AbstractVector") -> "AbstractVector":
+    def __sub__(self, other: Self) -> Self:
         return self.__add__(-other)
 
     def __neg__(self):
         return self * -1
 
-    def __mul__(self, value: int) -> "AbstractVector":
+    def __mul__(self, value: int) -> Self:
         kwargs = {field: getattr(self, field) * value for field in self.fields}
         return self.__class__(**kwargs)
 
-    def __rmul__(self, value: int) -> "AbstractVector":
+    def __rmul__(self, value: int) -> Self:
         return self.__mul__(value)
 
     def norm(self, p=1):
@@ -37,22 +36,46 @@ class AbstractVector:
             yield getattr(self, field)
 
 
-@dataclass(slots=True)
-class Vector2D(AbstractVector):
+class _Vector2D(NamedTuple):
     x: int
     y: int
 
 
-@dataclass(slots=True)
-class Vector3D(Vector2D):
+class Vector2D(VectorMixin, _Vector2D):
+    def rotate(self, k):
+        """
+        rotate by 90 degres, clockwise
+        """
+        match k % 4:
+            case 0:
+                values = (self[0], self[1])
+            case 1:
+                values = (self[1], -self[0])
+            case 2:
+                values = (-self[0], -self[1])
+            case 3:
+                values = (-self[1], self[0])
+        return self.__class__(*values)
+
+
+class _Vector3D(NamedTuple):
+    x: int
+    y: int
     z: int
 
 
+class Vector3D(VectorMixin, _Vector3D):
+    pass
+
+
 # FIXME: legacy, should be removed
-@dataclass(slots=True)
-class Vector(AbstractVector):
+class _Vector(NamedTuple):
     row: int
     col: int
+
+
+class Vector(VectorMixin, _Vector):
+    pass
 
 
 DIRECTIONS = [
@@ -86,7 +109,7 @@ class Grid:
         return len(self.arr[0])
 
     def __contains__(self, vector: Vector) -> bool:
-        return 0 <= vector.row < self.row_size and 0 <= vector.col < self.col_size
+        return 0 <= vector[0] < self.row_size and 0 <= vector.col < self.col_size
 
     def contains(self, vector: Vector):
         return vector in self
@@ -96,7 +119,7 @@ class Grid:
         for direction in directions:
             neighbour = vector + direction
             if self.contains(neighbour):
-                yield (neighbour, self.arr[neighbour])
+                yield (neighbour, self[neighbour])
 
     @property
     def rows(self):

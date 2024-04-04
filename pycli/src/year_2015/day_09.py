@@ -1,7 +1,7 @@
 import re
 from collections import defaultdict
 
-from .held_karp import shortest_hamiltionan_path
+from pycli.src.held_karp import shortest_hamiltionan_path
 
 pattern = re.compile(r"(?P<start>\w+) to (?P<stop>\w+) = (?P<dist>\d+)")
 

@@ -72,9 +72,3 @@ def f(x):
             loops += 1
             if loops >= 20:
                 return
-
-
-def part_2(text, example: bool = False):
-    registers = dict.fromkeys("abcd", 0)
-    registers["c"] = 1
-    return solution(text, registers)

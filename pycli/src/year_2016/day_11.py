@@ -2,7 +2,7 @@ import re
 from itertools import chain, combinations
 from typing import NamedTuple
 
-from .dijkstra import a_star
+from pycli.src.dijkstra import a_star
 
 pattern = re.compile(r"\w+(?:\ generator|\-compatible)")
 

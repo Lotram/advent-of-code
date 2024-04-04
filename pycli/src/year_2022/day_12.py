@@ -1,4 +1,4 @@
-from .dijkstra import matrix_dijkstra
+from pycli.src.dijkstra import matrix_dijkstra
 
 
 def neighbours(grid, row, col):
