@@ -1,8 +1,9 @@
-import math
 from fractions import Fraction
 from itertools import combinations
-from operator import attrgetter
 from typing import NamedTuple
+
+from sympy import Symbol
+from sympy.solvers import solve
 
 
 class Point(NamedTuple):
@@ -15,10 +16,10 @@ class Speed(Point):
     pass
 
 
-LOWER = 7
-UPPER = 27
-# LOWER = 200000000000000
-# UPPER = 400000000000000
+# LOWER = 7
+# UPPER = 27
+LOWER = 200000000000000
+UPPER = 400000000000000
 
 
 class Line(NamedTuple):
@@ -50,33 +51,25 @@ class Line(NamedTuple):
         return cls(tuple(map(int, point.split(","))), tuple(map(int, speed.split(","))))
 
 
-def part_1(text, example: bool = False):
+def part_1(text, example=False):
     lines = [Line.parse(line) for line in text.strip().split("\n")]
     return sum(1 for line, other in combinations(lines, 2) if line.intersect(other))
 
 
-mathematica_query = """    Solve[
-    Subscript[x, p] + Subscript[a, p] * Subscript[t, i] == 257520024329236 + 21 * Subscript[t, i]  &&
-    Subscript[x, p] + Subscript[a, p] * Subscript[t, j] == 227164924449606 + 70 * Subscript[t, j]  &&
-    Subscript[x, p] + Subscript[a, p] * Subscript[t, k] == 269125649340143 + 35 * Subscript[t, k] &&
-    Subscript[y, p] + Subscript[b, p] * Subscript[t, i] == 69140711609471 + 351 * Subscript[t, i]  &&
-    Subscript[y, p] + Subscript[b, p] * Subscript[t, j] == 333280170830371 - 28 * Subscript[t, j]  &&
-    Subscript[y, p] + Subscript[b, p] * Subscript[t, k] == 131766988959682 - 337 * Subscript[t, k] &&
-    Subscript[z, p] + Subscript[c, p] * Subscript[t, i] == 263886787577054  + 72 * Subscript[t, i]  &&
-    Subscript[z, p] + Subscript[c, p] * Subscript[t, j] == 330954002548352  -35 * Subscript[t, j]  &&
-    Subscript[z, p] + Subscript[c, p] * Subscript[t, k] == 261281801543906 -  281 * Subscript[t, k],
-    {Subscript[x, p], Subscript[y, p], Subscript[z, p], Subscript[a, p], Subscript[b, p], Subscript[c, p], Subscript[t, i], , Subscript[t, j], Subscript[t, k]}
-    ]"""
-
-
-# TODO: Try https://docs.sympy.org/latest/guides/solving/solve-system-of-equations-algebraically.html
-def part_2(text, example: bool = False):
+def part_2(text, example=False):
     lines = [Line.parse(line) for line in text.strip().split("\n")]
-    (x, y, z) = zip(*map(attrgetter("start"), lines))
-    (a, b, c) = zip(*map(attrgetter("speed"), lines))
-    t = [5, 3, 4, 6, 1]
+    axes = [Symbol(s) for s in ["x", "y", "z"]]
+    speeds = [Symbol(s) for s in ["a", "b", "c"]]
+    durations = [Symbol(s) for s in ["t", "u", "v"]]
 
-    # solved with mathematica
-    start, speed = (270890255948806, 91424430975421, 238037673112552), (6, 326, 101)
-    result = sum(start)
+    equations = [
+        axis
+        - line.start[axis_idx]
+        + (speed - line.speed[axis_idx]) * durations[line_idx]
+        for line_idx, line in enumerate(lines[:3])
+        for axis_idx, (axis, speed) in enumerate(zip(axes, speeds))
+    ]
+
+    solution = solve(equations)[0]
+    result = sum(solution[axis] for axis in axes)
     return result
