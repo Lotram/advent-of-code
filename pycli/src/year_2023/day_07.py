@@ -20,17 +20,12 @@ class Hand(BaseModel):
     bidding: int
     card_order: ClassVar[str] = "AKQJT98765432"[::-1]
 
-    def get_hand_type(self):
-        counter = Counter(self.cards)
-        most_commons = counter.most_common(2)
+    def get_most_commons(self):
+        return Counter(self.cards).most_common(2)
 
-        # change this block for part 1
-        if most_commons[0][0] == "J":
-            if len(most_commons) > 1:
-                counter = Counter(self.cards.replace("J", most_commons[1][0]))
-        else:
-            counter = Counter(self.cards.replace("J", most_commons[0][0]))
-        most_commons = counter.most_common(2)
+    def get_hand_type(self):
+        most_commons = self.get_most_commons()
+
         match most_commons[0][1]:
             case 5:
                 return HandType.FIVE
@@ -77,6 +72,19 @@ def part_1(text, example=False):
 
 class Hand2(Hand):
     card_order: ClassVar[str] = "AKQT98765432J"[::-1]
+
+    def get_most_commons(self):
+        most_commons = super().get_most_commons()
+        if most_commons[0][0] == "J":
+            if len(most_commons) > 1:
+                most_commons = Counter(
+                    self.cards.replace("J", most_commons[1][0])
+                ).most_common(2)
+        else:
+            most_commons = Counter(
+                self.cards.replace("J", most_commons[0][0])
+            ).most_common(2)
+        return most_commons
 
 
 def part_2(text, example=False):

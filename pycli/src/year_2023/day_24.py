@@ -5,16 +5,7 @@ from typing import NamedTuple
 from sympy import Symbol
 from sympy.solvers import solve
 
-
-class Point(NamedTuple):
-    x: int
-    y: int
-    z: int
-
-
-class Speed(Point):
-    pass
-
+from pycli.src.grid import Vector3D
 
 # LOWER = 7
 # UPPER = 27
@@ -23,8 +14,8 @@ UPPER = 400000000000000
 
 
 class Line(NamedTuple):
-    start: Point
-    speed: Speed
+    start: Vector3D
+    speed: Vector3D
 
     def intersect(self, other):
         xA, yA, _ = self.start

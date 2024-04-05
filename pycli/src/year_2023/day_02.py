@@ -10,11 +10,11 @@ max_values = {
 }
 
 
-def part_1(lines):
+def part_1(text, example=False):
+    lines = text.strip().split("\n")
     total = 0
-    for line in lines.strip().split("\n"):
-        game, draws = line.split(":")
-        game_id = int(game.split()[1])
+    for game_id, line in enumerate(lines, 1):
+        _, draws = line.split(":")
         if all(
             int(value) <= max_values[color]
             for value, color in map(methodcaller("split", " "), pattern.findall(draws))
@@ -23,6 +23,14 @@ def part_1(lines):
     return total
 
 
-def part_2(lines):
-    result = None
-    print(result)
+def part_2(text, example=False):
+    lines = text.strip().split("\n")
+    total = 0
+    for line in lines:
+        _, draws = line.split(":")
+        values = {"red": [], "green": [], "blue": []}
+        for value, color in map(methodcaller("split", " "), pattern.findall(draws)):
+            values[color].append(int(value))
+
+        total += max(values["red"]) * max(values["green"]) * max(values["blue"])
+    return total

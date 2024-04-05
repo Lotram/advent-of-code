@@ -17,6 +17,7 @@ def get_neighbours(node):
         yield (row + direction[0], col + direction[1], direction, count + 1)
 
 
+# FIXME use standard implem instead
 def matrix_dijkstra(grid, start_position, end):
     start = (*start_position, (0, 1), 0)
     min_dist = {start: 0}

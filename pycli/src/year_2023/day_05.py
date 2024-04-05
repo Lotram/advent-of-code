@@ -4,7 +4,7 @@ from itertools import batched, count
 from pydantic import BaseModel
 
 
-def part_1(lines):
+def part_1(text, example=False):
     result = None
     print(result)
 
@@ -66,11 +66,11 @@ def build_maps(lines):
     return maps
 
 
-def part_2(lines):
-    _lines = [line for line in lines.strip().split("\n") if line]
+def part_2(text, example=False):
+    lines = text.strip().split("\n")
     result = None
-    seeds = list(map(SeedRange.from_tuple, batched(re.findall(r"\d+", _lines[0]), 2)))
-    map_list = build_maps(_lines[1:])
+    seeds = list(map(SeedRange.from_tuple, batched(re.findall(r"\d+", lines[0]), 2)))
+    map_list = build_maps(lines[1:])
     maps = Maps(maps=map_list[::-1], seeds=seeds)
     counter = count()
     while True:
