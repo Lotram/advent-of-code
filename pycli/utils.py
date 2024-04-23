@@ -34,8 +34,8 @@ def get_solution_path(day: int, year: int) -> Path:
     return path
 
 
-def aoc(command):
-    subprocess.run(f"aoc {command}", shell=True)
+def aoc(command: str) -> subprocess.CompletedProcess:
+    return subprocess.run(f"aoc {command}", shell=True)
 
 
 def parse_days(day: str) -> list[int]:

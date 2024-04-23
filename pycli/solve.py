@@ -40,3 +40,4 @@ def solve(
         print(result)
     if submit:
         aoc(f"submit -y {year} -d {day:02} {part} {result}")
+        download(day, year)

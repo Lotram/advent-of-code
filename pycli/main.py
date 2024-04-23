@@ -60,11 +60,14 @@ def solve(
 def download(
     day: Annotated[str, typer.Argument()],
     year: Year = YEAR,
+    scaffold: Annotated[bool, typer.Option("--scaffold", "-s")] = False,
 ):
     assert year is not None
     days = parse_days(day)
     for _day in days:
         _download(_day, year)
+        if scaffold:
+            _scaffold(_day, year)
 
 
 @app.command()
