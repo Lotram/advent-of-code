@@ -15,6 +15,7 @@ dependencies = [
     "Pillow>=10.1.0",
     "numpy>=1.26.3",
     "sympy>=1.12",
+    "networkx[extra]>=3.3",
 ]
 requires-python = ">=3.12"
 readme = "README.md"
