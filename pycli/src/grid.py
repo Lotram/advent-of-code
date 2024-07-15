@@ -58,6 +58,18 @@ class Vector2D(VectorMixin, _Vector2D):
         return self.__class__(*values)
 
 
+class Particle2D(NamedTuple):
+    position: Vector2D
+    speed: Vector2D
+    acceleration: Vector2D
+
+    def get_position(self, t):
+        return self.position + t * self.speed + t * (t + 1) // 2 * self.acceleration
+
+    def get_speed(self, t):
+        self.speed + t * self.acceleration
+
+
 class _Vector3D(NamedTuple):
     x: int
     y: int
