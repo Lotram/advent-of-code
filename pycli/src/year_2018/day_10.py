@@ -8,10 +8,10 @@ from pycli.src.grid import Grid, Particle2D, Vector2D
 
 pattern = re.compile(r"-?\d+")
 
-MAX_HEIGHT = 10
+MAX_HEIGHT = 12
 
 
-def part_1(text, example: bool = False):
+def solution(text):
     lines = map(pattern.findall, text.strip().split("\n"))
     particles = [
         Particle2D(
@@ -27,7 +27,6 @@ def part_1(text, example: bool = False):
     vy = p_max.speed.y - p_min.speed.y
     t_min = ceil((-MAX_HEIGHT - py) / vy)
     t_max = int((MAX_HEIGHT - py) / vy)
-    print(t_min, t_max)
     for t in range(t_min, t_max + 1):
         assert abs(p_min.get_position(t_min).y - p_max.get_position(t).y) < MAX_HEIGHT
 
@@ -36,42 +35,22 @@ def part_1(text, example: bool = False):
         >= MAX_HEIGHT
     )
 
-    # candidates = set(range(100_000))
-    # for particle in particles:
-    #     py = particle.position.y
-    #     vy = particle.speed.y
-    #     if vy == 0:
-    #         continue
-    #     b1, b2 = -py // vy, (MAX_HEIGHT - py) // vy
-    #     candidates &= set(range(min(b1, b2), max(b1, b2) + 1))
-    #     if len(candidates) == 1:
-    #         t = candidates.pop()
-    #         break
-
-    #     print(b1, b2)
-    #     print(candidates)
-    # else:
-    #     raise RuntimeError("no candidate")
-
     for t in range(t_min, t_max + 1):
         positions = [particle.get_position(t) for particle in particles]
 
         min_x = min(position.x for position in positions)
+        max_x = max(position.x for position in positions)
         min_y = min(position.y for position in positions)
+        max_y = max(position.y for position in positions)
+        if max_y - min_y > MAX_HEIGHT:
+            continue
+
+        print(t)
         grid = Grid(
             np.array(
                 [
-                    [
-                        False
-                        for _ in range(
-                            min_y,
-                            max(position.y for position in positions) + 1,
-                        )
-                    ]
-                    for _ in range(
-                        min_x,
-                        max(position.x for position in positions) + 1,
-                    )
+                    [False for _ in range(min_y, max_y + 1)]
+                    for _ in range(min_x, max_x + 1)
                 ]
             )
         )
@@ -81,10 +60,14 @@ def part_1(text, example: bool = False):
         grid.transpose().print()
         print()
 
+
+def part_1(text, example: bool = False):
+    solution(text)
     result = "CPJRNKCF"
     return result
 
 
 def part_2(text, example: bool = False):
-    result = None
+    solution(text)
+    result = 10345
     return result
