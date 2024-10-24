@@ -1,5 +1,6 @@
 import re
 
+
 pattern = re.compile(
     r"(?P<action>toggle|turn off|turn on) (?P<start_x>\d+),(?P<start_y>\d+) through (?P<end_x>\d+),(?P<end_y>\d+)"
 )

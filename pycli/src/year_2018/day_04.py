@@ -2,6 +2,7 @@ import re
 from collections import Counter, defaultdict
 from datetime import datetime
 
+
 pattern = re.compile(r"\[(?P<dt>.*)\] (?P<message>.*)")
 
 

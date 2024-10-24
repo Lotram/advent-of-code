@@ -20,7 +20,7 @@ def part_2(text, example: bool = False):
             values = list(map(int, line.split()))
             triangles.append(values)
 
-        for values in map(sorted, zip(*triangles)):
+        for values in map(sorted, zip(*triangles, strict=False)):
             if values[2] < values[0] + values[1]:
                 result += 1
     return result

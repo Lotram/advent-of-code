@@ -32,7 +32,7 @@ def get_answer(lines, expand_length):
         idx for idx, line in enumerate(lines) if all(char == "." for char in line)
     )
     expanded_columns = set(
-        col for col in range(0, row_length) if all(line[col] == "." for line in lines)
+        col for col in range(row_length) if all(line[col] == "." for line in lines)
     )
     positions = get_positions(lines)
     total_distance = 0

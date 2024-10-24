@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from pycli.src.grid import Vector2D as Vector
 
+
 # (x, y) coordinates
 DIRECTIONS = [
     NORTH := Vector(0, 1),

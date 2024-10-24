@@ -1,6 +1,7 @@
 from collections import defaultdict
 from operator import add, eq, ge, gt, le, lt, ne, sub
 
+
 operators = {
     "<": lt,
     "<=": le,

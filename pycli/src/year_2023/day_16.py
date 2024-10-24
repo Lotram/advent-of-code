@@ -58,7 +58,7 @@ def parse(grid, start_position, start_direction):
         positions, directions = next_positions, next_directions
         next_positions, next_directions = [], []
 
-        for position, direction in zip(positions, directions):
+        for position, direction in zip(positions, directions, strict=False):
             if not (0 <= position[0] < len(grid) and 0 <= position[1] < len(grid[0])):
                 continue
 

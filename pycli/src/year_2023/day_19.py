@@ -30,8 +30,8 @@ class Condition(BaseModel):
         value = getattr(range, self.part)
         lower = (value[0], min(value[1], self.value - (self.operator == "<")))
         upper = (max(value[0], lower[1] + 1), value[1])
-        range_1 = Range(**{**other_attrs, **{self.part: lower}})
-        range_2 = Range(**{**other_attrs, **{self.part: upper}})
+        range_1 = Range(**{**other_attrs, self.part: lower})
+        range_2 = Range(**{**other_attrs, self.part: upper})
 
         return [r for r in (range_1, range_2) if r.len()]
 
@@ -61,19 +61,19 @@ class Rule(BaseModel):
         range_1 = Range(
             **{
                 **other_attrs,
-                **{
+                
                     cond.part: lower,
-                    "target": self.target if cond.operator == "<" else range.target,
-                },
+                    "target": self.target if cond.operator == "<" else range.target
+                ,
             }
         )
         range_2 = Range(
             **{
                 **other_attrs,
-                **{
+                
                     cond.part: upper,
-                    "target": self.target if cond.operator == ">" else range.target,
-                },
+                    "target": self.target if cond.operator == ">" else range.target
+                ,
             }
         )
 
@@ -183,7 +183,7 @@ def part_2(text, example: bool = False):
             for rule in workflow.rules:
                 ranges = rule.split(range_)
                 for r in ranges:
-                    if not r.target == workflow.name:
+                    if r.target != workflow.name:
                         q.append(r)
                 range_ = next((r for r in ranges if r.target == workflow.name), None)
                 if range_ is None:

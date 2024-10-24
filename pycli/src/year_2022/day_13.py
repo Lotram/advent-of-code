@@ -11,7 +11,7 @@ def compare(left, right):
         case int(), int():
             return sign(left, right)
         case list(), list():
-            for _left, _right in zip(left, right):
+            for _left, _right in zip(left, right, strict=False):
                 res = compare(_left, _right)
                 if res != 0:
                     return res

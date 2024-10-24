@@ -155,7 +155,7 @@ class Grid:
         )
 
     def find_iter(self, value):
-        return starmap(Vector, zip(*np.where(self.arr == value)))
+        return starmap(Vector, zip(*np.where(self.arr == value), strict=False))
 
     def find(self, value):
         return next(self.find_iter(value))

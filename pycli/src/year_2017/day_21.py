@@ -3,6 +3,7 @@ from itertools import batched
 
 import numpy as np
 
+
 pattern = """.#.
 ..#
 ###"""

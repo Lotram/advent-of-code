@@ -2,8 +2,8 @@ import heapq
 import re
 
 import networkx as nx
-
 from pycli.src.topological_sort import kahn
+
 
 pattern = re.compile(r"[A-Z](?=\ )")
 

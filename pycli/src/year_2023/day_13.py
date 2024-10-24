@@ -15,7 +15,7 @@ def find_reflexion(rows):
         can_change = True
         is_mirror = True
         left, right = rows[:candidate][::-1], rows[candidate:]
-        for idx, (l, r) in enumerate(zip(left, right)):
+        for idx, (l, r) in enumerate(zip(left, right, strict=False)):
             if l == r:
                 continue
             elif can_change and is_similar(l, r):
@@ -34,7 +34,7 @@ def find_reflexions(pattern):
     if idx is not None:
         return 100 * idx
 
-    columns = list(zip(*rows))
+    columns = list(zip(*rows, strict=False))
     return find_reflexion(columns)
 
 

@@ -4,6 +4,7 @@ from functools import partial
 
 import numpy as np
 
+
 pattern = re.compile(r"[-\d]+")
 
 

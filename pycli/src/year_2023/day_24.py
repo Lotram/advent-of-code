@@ -2,10 +2,10 @@ from fractions import Fraction
 from itertools import combinations
 from typing import NamedTuple
 
+from pycli.src.grid import Vector3D
 from sympy import Symbol
 from sympy.solvers import solve
 
-from pycli.src.grid import Vector3D
 
 # LOWER = 7
 # UPPER = 27
@@ -58,7 +58,7 @@ def part_2(text, example=False):
         - line.start[axis_idx]
         + (speed - line.speed[axis_idx]) * durations[line_idx]
         for line_idx, line in enumerate(lines[:3])
-        for axis_idx, (axis, speed) in enumerate(zip(axes, speeds))
+        for axis_idx, (axis, speed) in enumerate(zip(axes, speeds, strict=False))
     ]
 
     solution = solve(equations)[0]

@@ -8,6 +8,7 @@ from operator import attrgetter, methodcaller
 
 from pydantic import BaseModel
 
+
 int_pattern = re.compile(r"\d+")
 
 

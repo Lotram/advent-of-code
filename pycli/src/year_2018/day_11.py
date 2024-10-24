@@ -2,6 +2,7 @@ from itertools import product, starmap
 
 from pycli.src.grid import Vector2D
 
+
 GRID_SIZE = 300
 
 # 235,87,13

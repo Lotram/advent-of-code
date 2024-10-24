@@ -1,6 +1,7 @@
 import re
 from operator import methodcaller
 
+
 pattern = re.compile(r"\d+ \w+")
 
 max_values = {

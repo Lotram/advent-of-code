@@ -2,6 +2,7 @@ from operator import and_, invert, lshift, or_, rshift
 
 from pydantic import BaseModel
 
+
 SIZE = 2**16 - 1
 
 OPERATORS = {"NOT": invert, "LSHIFT": lshift, "RSHIFT": rshift, "AND": and_, "OR": or_}

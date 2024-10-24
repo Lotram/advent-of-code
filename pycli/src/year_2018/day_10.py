@@ -3,8 +3,8 @@ from math import ceil
 from operator import attrgetter
 
 import numpy as np
-
 from pycli.src.grid import Grid, Particle2D, Vector2D
+
 
 pattern = re.compile(r"-?\d+")
 

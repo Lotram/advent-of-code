@@ -3,6 +3,7 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Self
 
+
 pattern = re.compile(
     r"(?P<name>\w+) \((?P<size>\d+)\)(?: -> (?P<children>(?:[\w, ])+))?"
 )

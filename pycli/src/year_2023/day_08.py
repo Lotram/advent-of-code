@@ -2,6 +2,7 @@ import math
 import re
 from itertools import cycle, product
 
+
 PATTERN = re.compile(r"(?P<position>\w{3}) = \((?P<left>\w{3}), (?P<right>\w{3})\)")
 
 

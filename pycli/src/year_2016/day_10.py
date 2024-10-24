@@ -2,6 +2,7 @@ import re
 from collections import deque
 from typing import NamedTuple
 
+
 VALUES = re.compile(r"value (?P<value>\d+) goes to (?P<bot>bot \d+)")
 TARGETS = re.compile(r"((?:bot|output) \d+)")
 

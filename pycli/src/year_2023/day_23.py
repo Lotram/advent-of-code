@@ -1,6 +1,7 @@
 from collections import defaultdict, deque
 from typing import NamedTuple
 
+
 inf = float("inf")
 
 

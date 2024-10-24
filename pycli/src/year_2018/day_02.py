@@ -20,7 +20,7 @@ def part_2(text, example: bool = False):
     for line, other in product(text.strip().split("\n"), repeat=2):
         single_diff = False
         result = []
-        for c, o in zip(line, other):
+        for c, o in zip(line, other, strict=False):
             if c != o:
                 if single_diff:
                     break

@@ -1,12 +1,13 @@
 import re
 
+
 pattern = re.compile(r"(-?\d+)")
 
 
 def predict(values):
     lines = [values]
     while True:
-        next_line = [values[i + 1] - values[i] for i in range(0, len(values) - 1)]
+        next_line = [values[i + 1] - values[i] for i in range(len(values) - 1)]
         lines.append(next_line)
         if all(val == next_line[0] for val in next_line[1:]):
             return sum(line[-1] for line in lines)
@@ -21,7 +22,7 @@ def part_1(text, example: bool = False):
 def predict_2(values):
     lines = [values]
     while True:
-        next_line = [values[i + 1] - values[i] for i in range(0, len(values) - 1)]
+        next_line = [values[i + 1] - values[i] for i in range(len(values) - 1)]
         lines.append(next_line)
         if all(val == next_line[0] for val in next_line[1:]):
             return sum(line[0] * (-1) ** idx for idx, line in enumerate(lines))

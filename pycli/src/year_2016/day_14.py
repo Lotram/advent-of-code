@@ -2,6 +2,7 @@ import re
 from hashlib import md5
 from itertools import count
 
+
 THREE_CHARS = re.compile(r"(.)\1\1")
 FIVE_CHARS = {char: re.compile(char * 5) for char in "0123456789abcdef"}
 

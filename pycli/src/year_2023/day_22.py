@@ -1,7 +1,6 @@
 import heapq
 from collections import defaultdict
 from operator import attrgetter, methodcaller
-from typing import NamedTuple
 
 from pydantic import BaseModel
 

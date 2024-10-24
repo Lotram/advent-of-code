@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict, deque
 
+
 pattern = re.compile(r"\d+")
 
 

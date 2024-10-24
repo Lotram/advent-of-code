@@ -1,5 +1,6 @@
 from .utils import get_example_path, get_solution_path
 
+
 RUST_TEMPLATE = r"""advent_of_code::solution!(DAY_NUMBER);
 
 pub fn part_one(input: &str) -> Option<u32> {

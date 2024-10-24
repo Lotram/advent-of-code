@@ -1,6 +1,7 @@
 import re
 from itertools import chain
 
+
 pattern = re.compile(r"\.|#")
 
 
@@ -49,7 +50,6 @@ def part_2(text, example: bool = False):
     masks = parse_masks(lines[2:])
     states = {state: (0, 0)}
     for generation in range(loops):
-
         state = next_generation(state, masks)
         min_val, centered_state = center_state(state)
         if centered_state in states:

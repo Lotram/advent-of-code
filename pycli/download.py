@@ -2,6 +2,7 @@ import re
 
 from .utils import aoc, get_answer_path, get_input_path, get_puzzle_path
 
+
 answer_pattern = re.compile(r"Your puzzle answer was `(?P<answer>[a-zA-Z0-9_,]+)`.")
 
 

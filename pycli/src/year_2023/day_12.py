@@ -2,6 +2,7 @@ import re
 from functools import cache
 from itertools import repeat
 
+
 pattern = re.compile(r"\.+")
 
 

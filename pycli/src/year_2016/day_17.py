@@ -5,6 +5,7 @@ from typing import NamedTuple
 from pycli.src.dijkstra import a_star
 from pycli.src.grid import Vector
 
+
 inf = float("inf")
 
 

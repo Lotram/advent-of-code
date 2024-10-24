@@ -4,8 +4,8 @@ from operator import attrgetter, neg
 from typing import NamedTuple
 
 import numpy as np
-
 from pycli.src.grid import Grid, Vector
+
 
 PATTERN = re.compile(r"\d+")
 

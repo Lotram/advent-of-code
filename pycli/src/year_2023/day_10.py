@@ -1,5 +1,6 @@
 from typing import NamedTuple
 
+
 valid_to = {
     "7": [(0, -1), (1, 0)],
     "J": [(0, -1), (-1, 0)],
@@ -11,7 +12,7 @@ valid_to = {
 
 
 def add(t1: tuple[int, int], t2: tuple[int, int]) -> tuple[int, int]:
-    return tuple(a + b for a, b in zip(t1, t2))
+    return tuple(a + b for a, b in zip(t1, t2, strict=False))
 
 
 def get_positions(lines):
@@ -79,10 +80,10 @@ def part_2(text, example: bool = False):
     positions = [Position(*position) for position in get_positions(lines)]
     char_by_pos = {pos: lines[pos.row][pos.column] for pos in positions}
     counter = 0
-    for row in range(0, len(lines)):
+    for row in range(len(lines)):
         inside = False
         last_char = None
-        for col in range(0, len(lines[0])):
+        for col in range(len(lines[0])):
             char = char_by_pos.get(Position(row, col))
             match char:
                 case "|":

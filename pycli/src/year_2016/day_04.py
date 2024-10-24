@@ -2,6 +2,7 @@ import re
 from collections import Counter
 from operator import itemgetter
 
+
 pattern = re.compile(r"(?P<name>[a-z-]+)-(?P<room_id>\d+)\[(?P<checksum>[a-z]{5})\]")
 
 

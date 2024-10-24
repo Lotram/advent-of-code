@@ -4,6 +4,7 @@ from itertools import chain, product
 
 from pycli.src.grid import Vector2D as Vector
 
+
 inf = float("inf")
 
 

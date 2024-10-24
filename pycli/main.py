@@ -1,23 +1,23 @@
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
-
 from pycli.download import download as _download
 from pycli.scaffold import scaffold as _scaffold
 from pycli.solve import solve as _solve
 from pycli.utils import get_solution_path, parse_days
 
+
 app = typer.Typer(no_args_is_help=True)
 
 YEAR: None | int = 2018
 
-Year = Annotated[Optional[int], typer.Option("--year", "-y")]
+Year = Annotated[int | None, typer.Option("--year", "-y")]
 
 
 @app.command()
 def solve(
     day: Annotated[str, typer.Argument()],
-    part: Annotated[Optional[int], typer.Option("--part", "-p")] = None,
+    part: Annotated[int | None, typer.Option("--part", "-p")] = None,
     year: Year = YEAR,
     example: Annotated[bool, typer.Option("--example", "-e")] = False,
     check: Annotated[bool, typer.Option()] = False,

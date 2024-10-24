@@ -1,7 +1,5 @@
 from collections import Counter
 
-from PIL import Image, ImageDraw
-
 
 def parse_line(line):
     direction, value, color = line.split()
@@ -19,19 +17,19 @@ def build_grid(lines, width, height):
     for dir, value, _ in lines:
         match dir:
             case "R":
-                for idx in range(0, value):
+                for idx in range(value):
                     grid[row][col + 1 + idx] = black
                 col += value
             case "L":
-                for idx in range(0, value):
+                for idx in range(value):
                     grid[row][col - (1 + idx)] = black
                 col -= value
             case "U":
-                for idx in range(0, value):
+                for idx in range(value):
                     grid[row - (idx + 1)][col] = black
                 row -= value
             case "D":
-                for idx in range(0, value):
+                for idx in range(value):
                     grid[row + (idx + 1)][col] = black
                 row += value
 

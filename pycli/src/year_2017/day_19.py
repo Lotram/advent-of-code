@@ -1,5 +1,4 @@
 import numpy as np
-
 from pycli.src.grid import DIRECTIONS, SOUTH, Grid
 
 

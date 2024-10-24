@@ -1,5 +1,6 @@
 from pycli.src.grid import Vector
 
+
 directions = {
     "ne": Vector(1, 1),
     "n": Vector(2, 0),

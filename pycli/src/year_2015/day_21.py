@@ -39,16 +39,16 @@ rings = [
 
 
 def add(*items):
-    return Equipment(*map(sum, zip(*items)))
+    return Equipment(*map(sum, zip(*items, strict=False)))
 
 
 def part_1(text, example: bool = False):
-    boss_hp, boss_damage, boss_armor = [
+    boss_hp, boss_damage, boss_armor = (
         int(line.split(": ")[1]) for line in text.strip().split("\n")
-    ]
+    )
     player_hp = 100
     candidates = (
-        Equipment(*map(sum, zip(weapon, armor, ring_1, ring_2)))
+        Equipment(*map(sum, zip(weapon, armor, ring_1, ring_2, strict=False)))
         for weapon, armor, (ring_1, ring_2) in product(
             weapons, armors, combinations(rings, 2)
         )
@@ -63,12 +63,12 @@ def part_1(text, example: bool = False):
 
 
 def part_2(text, example: bool = False):
-    boss_hp, boss_damage, boss_armor = [
+    boss_hp, boss_damage, boss_armor = (
         int(line.split(": ")[1]) for line in text.strip().split("\n")
-    ]
+    )
     player_hp = 100
     candidates = (
-        Equipment(*map(sum, zip(weapon, armor, ring_1, ring_2)))
+        Equipment(*map(sum, zip(weapon, armor, ring_1, ring_2, strict=False)))
         for weapon, armor, (ring_1, ring_2) in product(
             weapons, armors, combinations(rings, 2)
         )

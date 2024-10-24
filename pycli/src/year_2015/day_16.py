@@ -1,5 +1,6 @@
 from operator import eq, gt, lt, methodcaller
 
+
 data = {
     "children": 3,
     "cats": 7,

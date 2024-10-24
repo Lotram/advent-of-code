@@ -2,6 +2,7 @@ import math
 from itertools import product
 from typing import NamedTuple
 
+
 DAMAGE = 9
 BOSS_HP = 58
 

@@ -2,7 +2,6 @@ from dataclasses import astuple, dataclass
 from itertools import count
 
 import numpy as np
-
 from pycli.src.grid import EAST, NORTH, SOUTH, WEST, Grid, Vector
 
 

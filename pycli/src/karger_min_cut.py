@@ -4,6 +4,7 @@ from typing import Generic, TypeVar
 
 from pydantic import BaseModel
 
+
 NodeType = TypeVar("NodeType", str, int)
 
 

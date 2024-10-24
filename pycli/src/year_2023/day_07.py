@@ -53,7 +53,7 @@ class Hand(BaseModel):
         if self.get_hand_type() != other.get_hand_type():
             return self.get_hand_type() < other.get_hand_type()
         else:
-            for mine, other in zip(self.cards, other.cards):
+            for mine, other in zip(self.cards, other.cards, strict=False):
                 if mine != other:
                     return self.card_order.index(mine) < self.card_order.index(other)
 

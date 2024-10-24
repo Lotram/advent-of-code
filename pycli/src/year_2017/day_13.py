@@ -2,6 +2,7 @@ import re
 
 from sympy.ntheory.modular import symmetric_residue
 
+
 pattern = re.compile(r"\d+")
 
 

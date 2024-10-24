@@ -4,6 +4,7 @@ from typing import NamedTuple
 
 from pycli.src.dijkstra import a_star
 
+
 pattern = re.compile(r"\w+(?:\ generator|\-compatible)")
 
 

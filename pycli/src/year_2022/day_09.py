@@ -1,5 +1,6 @@
 from functools import cache
 
+
 MOVES = dict(D=(1, 0), L=(0, -1), R=(0, 1), U=(-1, 0))
 
 

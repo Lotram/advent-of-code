@@ -1,7 +1,6 @@
 from itertools import starmap
 
 import numpy as np
-
 from pycli.src.dijkstra import dijkstra
 from pycli.src.grid import Grid, Vector
 from pycli.src.held_karp import held_karp_bitmask
@@ -31,7 +30,7 @@ def get_neighbour_func(grid: Grid):
 def part_1(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
-        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
+        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)), strict=False)),
         key=lambda node: int(grid[node]),
     )
     get_neighbours = get_neighbour_func(grid)
@@ -67,7 +66,7 @@ def part_1(text, example: bool = False):
 def part_2(text, example: bool = False):
     grid = Grid(np.array(list(map(list, text.strip().split("\n")))))
     nodes = sorted(
-        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)))),
+        starmap(Vector, zip(*np.where(np.vectorize(lambda x: x.isdigit())(grid.arr)), strict=False)),
         key=lambda node: int(grid[node]),
     )
     get_neighbours = get_neighbour_func(grid)

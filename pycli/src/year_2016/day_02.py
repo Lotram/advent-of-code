@@ -1,5 +1,6 @@
 from pycli.src.grid import EAST, NORTH, SOUTH, WEST, Grid, Vector
 
+
 DIRECTIONS = {"U": NORTH, "L": WEST, "D": SOUTH, "R": EAST}
 
 

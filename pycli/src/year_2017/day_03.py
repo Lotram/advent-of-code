@@ -3,6 +3,7 @@ from math import sqrt
 
 from pycli.src.grid import DIAG_DIRECTIONS, EAST, NORTH, SOUTH, WEST, Vector
 
+
 DIRECTIONS = [EAST, NORTH, WEST, SOUTH]
 
 ALL_DIRECTIONS = [*DIRECTIONS, *DIAG_DIRECTIONS]

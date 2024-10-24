@@ -80,7 +80,6 @@ def get_max(current_value, available, score):
 
 
 def part_1(text, example: bool = False):
-
     nodes = {
         Node(id=idx, start=start, end=end)
         for idx, (start, end) in enumerate(
