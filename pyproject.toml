@@ -1,28 +1,61 @@
 [project]
-name = ""
-version = ""
+name = "pycli"
+version = "0.0.1"
 description = ""
 authors = [
     {name = "Laurent Tramoy", email = "laurenttramoy@gmail.com"},
 ]
 dependencies = [
-    "ipython>=8.18.1",
-    "isort>=5.12.0",
-    "black>=23.11.0",
     "typer[rich]>=0.9.0",
     "pydantic>=2.5.2",
-    "ipdb>=0.13.13",
     "Pillow>=10.1.0",
     "numpy>=1.26.3",
     "sympy>=1.12",
-    "networkx[extra]>=3.3",
+    "networkx[default]>=3.3", # may require extra
+    "ruff>=0.5.2",
+    "ipython>=8.26.0",
 ]
 requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
 
-[tool.pdm.scripts]
-cli = {call = "pycli.main:app"}
-solve = {composite = ["cli solve"]}
-download = {composite = ["cli download"]}
-scaffold = {composite = ["cli scaffold"]}
+[project.scripts]
+cli = 'pycli.main:app'
+
+
+[tool.uv]
+
+[tool.ruff]
+src = ["pycli/*"]
+lint.exclude = ["*.ipynb"]
+lint.extend-ignore = [
+  "ISC001",
+  "COM812"
+]
+# From https://docs.astral.sh/ruff/rules/
+lint.select = [
+  "F",  # Pyflakes
+  "T20",  # flake8-print
+  "B",  # Flake8 bugbear
+  "C4",  # flake8-comprehensions
+  "SIM",  # flake8-simplify
+  "COM",  # Flake8-commas
+  "I",  # isort
+  "DJ",  # flake8-django
+  "LOG",  # flake8-logging
+  "DTZ",  # flake8-datetimez
+  "PTH",  # flake8-use-pathlib
+  "PIE",  # flake8-pie
+  "T10",  # flake8-debugger
+  "UP",  # PyUpgrade
+  "TID",  # flake8-tidy-imports
+  "ISC"  # flake8-implicit-str-concat
+]
+lint.isort.lines-after-imports = 2
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pycli"]
