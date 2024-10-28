@@ -87,7 +87,20 @@ class _Vector(NamedTuple):
 
 
 class Vector(VectorMixin, _Vector):
-    pass
+    def rotate(self, k):
+        """
+        rotate by 90 degres, clockwise
+        """
+        match k % 4:
+            case 0:
+                values = (self[0], self[1])
+            case 1:
+                values = (self[1], -self[0])
+            case 2:
+                values = (-self[0], -self[1])
+            case 3:
+                values = (-self[1], self[0])
+        return self.__class__(*values)
 
 
 DIRECTIONS = [

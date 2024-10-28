@@ -1,4 +1,7 @@
 import heapq
+from collections.abc import Callable, Iterable
+
+from .grid import Grid, Vector
 
 
 inf = float("inf")
@@ -78,25 +81,19 @@ def dijkstra_with_distance(distances, start, end):
     return dijkstra(start, end.__eq__, get_neighbours)
 
 
-def neighbours(grid, row, col):
-    _neighbours = [
-        (row - 1, col),
-        (row + 1, col),
-        (row, col - 1),
-        (row, col + 1),
-    ]
-    return [
-        ((_row, _column), grid[_row][_column])
-        for _row, _column in _neighbours
-        if 0 <= _row < len(grid) and 0 <= _column < len(grid[0])
-    ]
-
-
-def matrix_dijkstra(grid, start, end, neighbour_function):
+def matrix_dijkstra(
+    grid: Grid,
+    start: Vector,
+    end: Vector,
+    neighbour_function: Callable[[Grid, Vector], Iterable[tuple[Vector, int]]],
+    initial_cost: int = 0,
+):
     min_dist = {
-        (row, col): inf for row in range(len(grid)) for col in range(len(grid[0]))
+        Vector(row, col): inf
+        for row in range(grid.row_size)
+        for col in range(grid.col_size)
     }
-    min_dist[start] = grid[start[0]][start[1]]
+    min_dist[start] = initial_cost
     path = {node: [] for node in min_dist}
 
     not_visited = []
@@ -107,12 +104,11 @@ def matrix_dijkstra(grid, start, end, neighbour_function):
         if current == end:
             break
 
-        for neighbour, distance in neighbour_function(grid, *current):
+        for neighbour, distance in neighbour_function(grid, current):
             if min_dist[neighbour] > distance + min_dist[current]:
                 min_dist[neighbour] = distance + min_dist[current]
                 path[neighbour] = path[current] + [current]
                 heapq.heappush(
                     not_visited, (min_dist[neighbour], neighbour, path[neighbour])
                 )
-
     return min_dist[end], path[end] + [end]
