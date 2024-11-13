@@ -29,6 +29,7 @@ cli = 'pycli.main:app'
 src = ["pycli/*"]
 lint.exclude = ["*.ipynb"]
 lint.extend-ignore = [
+  "T201",
   "ISC001",
   "COM812"
 ]

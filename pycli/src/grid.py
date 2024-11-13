@@ -28,7 +28,7 @@ class VectorMixin:
     def __rmul__(self, value: int) -> Self:
         return self.__mul__(value)
 
-    def norm(self, p=1):
+    def norm(self, p=1) -> float:
         return pow(sum(pow(abs(x), p) for x in self), 1 / p)
 
     def __iter__(self):
@@ -119,6 +119,11 @@ class Grid:
         self.arr = np.array(arr)
         self.diag = diag
 
+    @classmethod
+    def from_text(cls, text, diag=False):
+        array = np.array(list(map(list, text.strip().split("\n"))))
+        return cls(array, diag=diag)
+
     def __getitem__(self, item):
         return self.arr.__getitem__(item)
 
@@ -186,13 +191,13 @@ class Grid:
         _slice = idx if axis == 0 else (slice(None), idx)
         self.arr[_slice] = np.roll(self.arr[_slice], shift=shift)
 
-    def print(self):
+    def print(self, file=None):
         if self.arr.dtype == "bool":
             rows = iter(np.where(self.arr, "#", "."))
         else:
             rows = self.rows
         for row in rows:
-            print("".join(map(str, row)))
+            print("".join(map(str, row)), file=file)
 
     def transpose(self):
         return Grid(self.arr.transpose(), self.diag)

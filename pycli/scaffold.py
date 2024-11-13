@@ -49,4 +49,4 @@ def scaffold(day, year):
     example.touch()
     print(f'Created empty example file "{example}"')
 
-    print(f"🎄 Type `pdm solve {day}` to run your solution.")
+    print(f"🎄 Type `uv run cli solve {day}` to run your solution.")
