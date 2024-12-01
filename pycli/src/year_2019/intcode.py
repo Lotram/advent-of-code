@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from queue import Queue
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 def get_parameter_modes(value, length):
@@ -9,8 +11,12 @@ def get_parameter_modes(value, length):
 
 
 class IntCodeComputer(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     codes: list[int]
     pointer: int = 0
+    name: str = "main"
+    input_queue: Queue = Field(default_factory=Queue)
+    output_queue: Queue = Field(default_factory=Queue)
 
     @classmethod
     def from_text(cls, text):
@@ -27,9 +33,7 @@ class IntCodeComputer(BaseModel):
                 case _:
                     raise ValueError(f"wrong mode {mode}")
 
-    def run(self, inputs=None):
-        input_it = iter(inputs or [])
-        outputs = []
+    def run(self, block=False, timeout=None):
         while True:
             value = self.codes[self.pointer]
             opcode = value % 100
@@ -52,12 +56,13 @@ class IntCodeComputer(BaseModel):
                     modes = list(get_parameter_modes(value, 1))
                     assert modes == [0]
                     address = next(self.get_addresses(modes))
-                    self.codes[address] = next(input_it)
+                    self.codes[address] = self.input_queue.get(block, timeout)
                     self.pointer += 2
                 case 4:
                     modes = list(get_parameter_modes(value, 1))
                     address = next(self.get_addresses(modes))
-                    outputs.append(self.codes[address])
+
+                    self.output_queue.put(self.codes[address])
                     self.pointer += 2
                 case 5:
                     modes = list(get_parameter_modes(value, 2))
@@ -91,4 +96,4 @@ class IntCodeComputer(BaseModel):
                     break
                 case _:
                     raise ValueError()
-        return outputs
+        return
