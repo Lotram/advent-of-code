@@ -5,24 +5,24 @@ from .intcode import IntCodeComputer
 
 def part_1(text, example: bool = False):
     computer = IntCodeComputer.from_text(text)
-    computer.codes[1] = 12
-    computer.codes[2] = 2
+    computer.memory[1] = 12
+    computer.memory[2] = 2
     computer.run()
-    result = computer.codes[0]
+    result = computer.memory[0]
     return result
 
 
 def part_2(text, example: bool = False):
     initial_values = list(map(int, text.strip().split(",")))
     for i, j in product(range(100), repeat=2):
-        computer = IntCodeComputer(codes=initial_values.copy())
-        computer.codes[1] = i
-        computer.codes[2] = j
+        computer = IntCodeComputer.model_validate({"codes": initial_values.copy()})
+        computer.memory[1] = i
+        computer.memory[2] = j
         try:
             computer.run()
         except ValueError:
             continue
-        if computer.codes[0] == 19690720:
-            return computer.codes[1] * 100 + computer.codes[2]
+        if computer.memory[0] == 19690720:
+            return computer.memory[1] * 100 + computer.memory[2]
     else:
         raise ValueError("no solution found")

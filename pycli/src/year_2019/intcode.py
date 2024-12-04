@@ -1,99 +1,120 @@
+from collections import defaultdict
 from queue import Queue
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-def get_parameter_modes(value, length):
-    value //= 100
-    for _ in range(length):
-        yield value % 10
-        value //= 10
+class Finished(Exception):
+    pass
+
+
+param_count_by_op_codes = {1: 3, 2: 3, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 3, 9: 1, 99: 0}
 
 
 class IntCodeComputer(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     codes: list[int]
+    memory: defaultdict[int, int]
     pointer: int = 0
+    relative_base: int = 0
     name: str = "main"
     input_queue: Queue = Field(default_factory=Queue)
     output_queue: Queue = Field(default_factory=Queue)
 
+    @model_validator(mode="before")
+    @classmethod
+    def set_memory(cls, data):
+        data["memory"] = defaultdict(int, dict(enumerate(data["codes"])))
+        return data
+
     @classmethod
     def from_text(cls, text):
-        return cls(codes=list(map(int, text.strip().split(","))))
+        return cls.model_validate({"codes": list(map(int, text.strip().split(",")))})
+
+    def get_values(self):
+        value = self.memory[self.pointer]
+        opcode = value % 100
+        length = param_count_by_op_codes[opcode]
+        value //= 100
+        modes = []
+        for _ in range(length):
+            modes.append(value % 10)
+            value //= 10
+
+        return opcode, modes
 
     def get_addresses(self, modes):
+        addresses = []
         for position, mode in zip(range(len(modes)), modes, strict=True):
-            address = self.pointer + position + 1
+            _address = self.pointer + position + 1
             match mode:
                 case 0:
-                    yield self.codes[address]
+                    address = self.memory[_address]
                 case 1:
-                    yield address
+                    address = _address
+                case 2:
+                    address = self.memory[_address + self.relative_base]
                 case _:
                     raise ValueError(f"wrong mode {mode}")
 
+            addresses.append(address)
+        return addresses
+
     def run(self, block=False, timeout=None):
         while True:
-            value = self.codes[self.pointer]
-            opcode = value % 100
-            match opcode:
-                case 1:
-                    modes = list(get_parameter_modes(value, 3))
-                    addresses = list(self.get_addresses(modes))
-                    self.codes[addresses[2]] = (
-                        self.codes[addresses[0]] + self.codes[addresses[1]]
-                    )
-                    self.pointer += 4
-                case 2:
-                    modes = list(get_parameter_modes(value, 3))
-                    addresses = list(self.get_addresses(modes))
-                    self.codes[addresses[2]] = (
-                        self.codes[addresses[0]] * self.codes[addresses[1]]
-                    )
-                    self.pointer += 4
-                case 3:
-                    modes = list(get_parameter_modes(value, 1))
-                    assert modes == [0]
-                    address = next(self.get_addresses(modes))
-                    self.codes[address] = self.input_queue.get(block, timeout)
-                    self.pointer += 2
-                case 4:
-                    modes = list(get_parameter_modes(value, 1))
-                    address = next(self.get_addresses(modes))
+            try:
+                self._run(block=block, timeout=timeout)
+            except Finished:
+                return
 
-                    self.output_queue.put(self.codes[address])
-                    self.pointer += 2
-                case 5:
-                    modes = list(get_parameter_modes(value, 2))
-                    addresses = list(self.get_addresses(modes))
-                    if self.codes[addresses[0]] != 0:
-                        self.pointer = self.codes[addresses[1]]
-                    else:
-                        self.pointer += 3
-                case 6:
-                    modes = list(get_parameter_modes(value, 2))
-                    addresses = list(self.get_addresses(modes))
-                    if self.codes[addresses[0]] == 0:
-                        self.pointer = self.codes[addresses[1]]
-                    else:
-                        self.pointer += 3
-                case 7:
-                    modes = list(get_parameter_modes(value, 3))
-                    addresses = list(self.get_addresses(modes))
-                    self.codes[addresses[2]] = int(
-                        self.codes[addresses[0]] < self.codes[addresses[1]]
-                    )
-                    self.pointer += 4
-                case 8:
-                    modes = list(get_parameter_modes(value, 3))
-                    addresses = list(self.get_addresses(modes))
-                    self.codes[addresses[2]] = int(
-                        self.codes[addresses[0]] == self.codes[addresses[1]]
-                    )
-                    self.pointer += 4
-                case 99:
-                    break
-                case _:
-                    raise ValueError()
-        return
+    def _run(self, block=False, timeout=None):
+        opcode, modes = self.get_values()
+        addresses = self.get_addresses(modes)
+        pointer_has_changed = False
+        match opcode:
+            case 1:
+                # Addition
+                self.memory[addresses[2]] = (
+                    self.memory[addresses[0]] + self.memory[addresses[1]]
+                )
+            case 2:
+                # multiplication
+                self.memory[addresses[2]] = (
+                    self.memory[addresses[0]] * self.memory[addresses[1]]
+                )
+            case 3:
+                # get input
+                assert modes == [0]
+                self.memory[addresses[0]] = self.input_queue.get(block, timeout)
+            case 4:
+                # output
+
+                self.output_queue.put(self.memory[addresses[0]])
+            case 5:
+                if self.memory[addresses[0]] != 0:
+                    self.pointer = self.memory[addresses[1]]
+                    pointer_has_changed = True
+
+            case 6:
+                if self.memory[addresses[0]] == 0:
+                    self.pointer = self.memory[addresses[1]]
+                    pointer_has_changed = True
+            case 7:
+                self.memory[addresses[2]] = int(
+                    self.memory[addresses[0]] < self.memory[addresses[1]]
+                )
+            case 8:
+                self.memory[addresses[2]] = int(
+                    self.memory[addresses[0]] == self.memory[addresses[1]]
+                )
+            case 9:
+                # set relative base
+                self.relative_base += self.memory[addresses[0]]
+
+            case 99:
+                raise Finished()
+            case _:
+                raise ValueError()
+
+        if not pointer_has_changed:
+            self.pointer += len(modes) + 1
