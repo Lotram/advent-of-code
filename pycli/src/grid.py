@@ -63,11 +63,11 @@ class Particle2D(NamedTuple):
     speed: Vector2D
     acceleration: Vector2D
 
-    def get_position(self, t):
+    def get_position(self, t) -> int:
         return self.position + t * self.speed + t * (t + 1) // 2 * self.acceleration
 
-    def get_speed(self, t):
-        self.speed + t * self.acceleration
+    def get_speed(self, t) -> int:
+        return self.speed + t * self.acceleration
 
 
 class _Vector3D(NamedTuple):
@@ -184,12 +184,8 @@ class Grid:
     def replace(self, old, new):
         self.arr[self.arr == old] = new
 
-    def rotate(self, idx, shift, axis):
-        """
-        axis 0 to rotate a row, 1 to rotate a column
-        """
-        _slice = idx if axis == 0 else (slice(None), idx)
-        self.arr[_slice] = np.roll(self.arr[_slice], shift=shift)
+    def rot90(self, k):
+        self.arr = np.rot90(self.arr, k)
 
     def print(self, file=None):
         if self.arr.dtype == "bool":
