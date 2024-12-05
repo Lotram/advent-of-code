@@ -2,7 +2,7 @@ import concurrent.futures
 import queue
 from itertools import permutations
 
-from .intcode import IntCodeComputer
+from .intcode import IntCodeComputer, Memory
 
 
 def part_1(text, example: bool = False):
@@ -16,7 +16,7 @@ def part_1(text, example: bool = False):
 
     def amplifier(idx):
         computer = IntCodeComputer(
-            codes=codes.copy(),
+            memory=Memory(codes.copy()),
             input_queue=queues[idx],
             name=str(f"amp_{idx}"),
             output_queue=queues[(idx + 1)],
@@ -43,7 +43,7 @@ def part_2(text, example: bool = False):
 
     def amplifier(idx):
         computer = IntCodeComputer(
-            codes=codes.copy(),
+            memory=Memory(codes.copy()),
             input_queue=queues[idx],
             name=str(f"amp_{idx}"),
             output_queue=queues[(idx + 1) % 5],

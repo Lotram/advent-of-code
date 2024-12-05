@@ -13,9 +13,9 @@ def part_1(text, example: bool = False):
 
 
 def part_2(text, example: bool = False):
-    initial_values = list(map(int, text.strip().split(",")))
+    computer = IntCodeComputer.from_text(text)
     for i, j in product(range(100), repeat=2):
-        computer = IntCodeComputer.model_validate({"codes": initial_values.copy()})
+        computer.reset()
         computer.memory[1] = i
         computer.memory[2] = j
         try:
