@@ -1,3 +1,4 @@
+from collections.abc import Collection
 from itertools import starmap
 from typing import NamedTuple, Self
 
@@ -123,6 +124,20 @@ class Grid:
     def from_text(cls, text, diag=False):
         array = np.array(list(map(list, text.strip().split("\n"))))
         return cls(array, diag=diag)
+
+    @classmethod
+    def from_complex_values(cls, values: Collection[complex]):
+        min_col = int(min(c.real for c in values))
+        max_col = int(max(c.real for c in values))
+        max_row = int(max(c.imag for c in values))
+        min_row = int(min(c.imag for c in values))
+        row_size = max_row - min_row + 1
+        col_size = max_col - min_col + 1
+        array = np.zeros((row_size, col_size), dtype=bool)
+        for val in values:
+            array[max_row - int(val.imag)][int(val.real - min_col)] = True
+
+        return cls(array)
 
     def __getitem__(self, item):
         return self.arr.__getitem__(item)

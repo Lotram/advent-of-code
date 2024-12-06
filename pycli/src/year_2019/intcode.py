@@ -10,6 +10,8 @@ class Finished(Exception):
 
 param_count_by_op_codes = {1: 3, 2: 3, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 3, 9: 1, 99: 0}
 
+FINISHED = object()
+
 
 class Memory:
     def __init__(self, codes: list[int]):
@@ -93,14 +95,14 @@ class IntCodeComputer(BaseModel):
             addresses.append(address)
         return addresses
 
-    def run(self, block=False, timeout=None):
+    def run(self, block=False, timeout=None, send_stop_value=False):
         while True:
             try:
-                self._run(block=block, timeout=timeout)
+                self._run(block=block, timeout=timeout, send_stop_value=send_stop_value)
             except Finished:
                 return
 
-    def _run(self, block=False, timeout=None):
+    def _run(self, block=False, timeout=None, send_stop_value=False):
         opcode, modes = self.get_values()
         addresses = self.get_addresses(modes)
         pointer_has_changed = False
@@ -155,6 +157,8 @@ class IntCodeComputer(BaseModel):
                 self.relative_base += self.memory[addresses[0]]
 
             case 99:
+                if send_stop_value:
+                    self.output_queue.put(FINISHED)
                 raise Finished()
             case _:
                 raise ValueError()
