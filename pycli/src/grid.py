@@ -212,3 +212,7 @@ class Grid:
 
     def transpose(self):
         return Grid(self.arr.transpose(), self.diag)
+
+
+def complex_from_positions(row_idx, col_idx, row_count):
+    return col_idx + (row_count - row_idx - 1) * 1j
