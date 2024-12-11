@@ -1,6 +1,8 @@
 import re
+from collections import defaultdict
 from collections.abc import Callable
-from itertools import groupby
+from copy import deepcopy
+from itertools import combinations, groupby
 from typing import NamedTuple
 
 
@@ -86,20 +88,88 @@ def get_state(moons):
     return hash(tuple(moon.hash() for moon in moons))
 
 
+def func(moons, iterations):
+    moons = deepcopy(moons)
+    for _ in range(iterations):
+        apply_gravity(moons, len(moons))
+
+        for moon in moons:
+            moon.move()
+
+    return {moon.idx: moon.hash() for moon in moons}
+
+
 def part_2(text: str, example: bool = False):
     moons = parse(text)
     moon_count = len(moons)
-    states = set()
+    states = {idx: {} for idx in range(moon_count)}
+    counter = 0
+    matched = {}
     while True:
+        for moon in moons:
+            if moon.hash() in states[moon.idx]:
+                loop_start = states[moon.idx][moon.hash()]
+                loop_size = counter - loop_start
+                matched.setdefault(moon.idx, (loop_start, loop_size))
+
+            states[moon.idx][moon.hash()] = counter
         apply_gravity(moons, moon_count)
 
         for moon in moons:
             moon.move()
 
-        state = get_state(moons)
-        if state in states:
+        counter += 1
+        if counter >= 2790:
             break
-        states.add(state)
 
+    breakpoint()
     result = len(states)
     return result
+
+
+results = {0: [24, 120, 8], 1: [24, 48, 80], 2: [120, 48, 48], 3: [8, 80, 48]}
+"""
+sympy.factorint(4686774924)
+{2: 2, 3: 1, 13: 2, 983: 1, 2351: 1}
+
+sympy.factorint(2772)
+{2: 2, 3: 2, 7: 1, 11: 1}
+
+[(4, 252), (26, 252), (6, 616), (0, 924)]
+"""
+
+
+# def part_2(text: str, example: bool = False):
+#     all_moons = parse(text)
+#     results = defaultdict(list)
+#     for x, y in combinations(all_moons, r=2):
+#         moons = deepcopy([x, y])
+#         states = {}
+#         counter = 0
+#         loop_size = None
+#         loop_start = None
+#         while True:
+#             state = get_state(moons)
+#             if state in states:
+#                 assert state == get_state([x, y])
+#                 loop_start = states[state]
+#                 loop_size = counter - loop_start
+#                 break
+
+#             states[state] = counter
+
+#             apply_gravity(moons, 2)
+
+#             for moon in moons:
+#                 moon.move()
+
+#             counter += 1
+
+#         _result = (loop_start, loop_size)
+#         print(_result)
+#         results[x.idx].append(_result)
+#         results[y.idx].append(_result)
+
+#     breakpoint()
+#     result = None
+#     return result
