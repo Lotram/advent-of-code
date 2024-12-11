@@ -1,8 +1,7 @@
+import math
 import re
-from collections import defaultdict
 from collections.abc import Callable
-from copy import deepcopy
-from itertools import combinations, groupby
+from itertools import groupby
 from typing import NamedTuple
 
 
@@ -21,9 +20,6 @@ class Moon(NamedTuple):
     @property
     def energy(self):
         return sum(map(abs, self.position)) * sum(map(abs, self.speed))
-
-    def hash(self):
-        return hash((tuple(self.position), tuple(self.speed)))
 
 
 def parse(text: str):
@@ -55,121 +51,45 @@ def _apply_gravity(moons, moon_count, axis):
         cursor += len(_moons)
 
 
-def _apply_gravity(moons, moon_count, axis):
-    for moon in moons:
-        moon.speed[axis] += sum(
-            1 for _moon in moons if moon.position[axis] < _moon.position[axis]
-        )
-        moon.speed[axis] -= sum(
-            1 for _moon in moons if moon.position[axis] > _moon.position[axis]
-        )
-
-
-def apply_gravity(moons, moon_count):
+def run(moons):
     for axis in range(3):
-        _apply_gravity(moons, moon_count, axis)
+        _apply_gravity(moons, 4, axis)
+
+    for moon in moons:
+        moon.move()
 
 
 def part_1(text: str, example: bool = False):
     moons = parse(text)
-    moon_count = len(moons)
     iterations = 10 if example else 1000
     for _ in range(iterations):
-        apply_gravity(moons, moon_count)
-
-        for moon in moons:
-            moon.move()
-
+        run(moons)
     result = sum(moon.energy for moon in moons)
     return result
 
 
-def get_state(moons):
-    return hash(tuple(moon.hash() for moon in moons))
-
-
-def func(moons, iterations):
-    moons = deepcopy(moons)
-    for _ in range(iterations):
-        apply_gravity(moons, len(moons))
-
-        for moon in moons:
-            moon.move()
-
-    return {moon.idx: moon.hash() for moon in moons}
-
-
 def part_2(text: str, example: bool = False):
     moons = parse(text)
-    moon_count = len(moons)
-    states = {idx: {} for idx in range(moon_count)}
+    results = {}
+    states = {idx: set() for idx in range(3)}
     counter = 0
-    matched = {}
+
     while True:
-        for moon in moons:
-            if moon.hash() in states[moon.idx]:
-                loop_start = states[moon.idx][moon.hash()]
-                loop_size = counter - loop_start
-                matched.setdefault(moon.idx, (loop_start, loop_size))
+        for axis in range(3):
+            state = hash(
+                tuple((moon.position[axis], moon.speed[axis]) for moon in moons)
+            )
+            if state in states[axis]:
+                results.setdefault(axis, counter)
 
-            states[moon.idx][moon.hash()] = counter
-        apply_gravity(moons, moon_count)
+            states[axis].add(state)
 
-        for moon in moons:
-            moon.move()
-
-        counter += 1
-        if counter >= 2790:
+        if len(results) == 3:
             break
 
-    breakpoint()
-    result = len(states)
+        run(moons)
+
+        counter += 1
+
+    result = math.lcm(*results.values())
     return result
-
-
-results = {0: [24, 120, 8], 1: [24, 48, 80], 2: [120, 48, 48], 3: [8, 80, 48]}
-"""
-sympy.factorint(4686774924)
-{2: 2, 3: 1, 13: 2, 983: 1, 2351: 1}
-
-sympy.factorint(2772)
-{2: 2, 3: 2, 7: 1, 11: 1}
-
-[(4, 252), (26, 252), (6, 616), (0, 924)]
-"""
-
-
-# def part_2(text: str, example: bool = False):
-#     all_moons = parse(text)
-#     results = defaultdict(list)
-#     for x, y in combinations(all_moons, r=2):
-#         moons = deepcopy([x, y])
-#         states = {}
-#         counter = 0
-#         loop_size = None
-#         loop_start = None
-#         while True:
-#             state = get_state(moons)
-#             if state in states:
-#                 assert state == get_state([x, y])
-#                 loop_start = states[state]
-#                 loop_size = counter - loop_start
-#                 break
-
-#             states[state] = counter
-
-#             apply_gravity(moons, 2)
-
-#             for moon in moons:
-#                 moon.move()
-
-#             counter += 1
-
-#         _result = (loop_start, loop_size)
-#         print(_result)
-#         results[x.idx].append(_result)
-#         results[y.idx].append(_result)
-
-#     breakpoint()
-#     result = None
-#     return result
