@@ -64,10 +64,10 @@ class Particle2D(NamedTuple):
     speed: Vector2D
     acceleration: Vector2D
 
-    def get_position(self, t) -> int:
+    def get_position(self, t) -> Vector2D:
         return self.position + t * self.speed + t * (t + 1) // 2 * self.acceleration
 
-    def get_speed(self, t) -> int:
+    def get_speed(self, t) -> Vector2D:
         return self.speed + t * self.acceleration
 
 
@@ -172,6 +172,11 @@ class Grid:
 
     def get_row(self, idx):
         return self.arr[idx]
+
+    def get(self, vector: Vector, default=None):
+        if vector not in self:
+            return default
+        return self[vector]
 
     @property
     def columns(self):
