@@ -1,10 +1,10 @@
 from itertools import product
 
-from .intcode import IntCodeComputer
+from .intcode import ListIntCodeComputer
 
 
 def part_1(text, example: bool = False):
-    computer = IntCodeComputer.from_text(text)
+    computer = ListIntCodeComputer.from_text(text)
     computer.memory[1] = 12
     computer.memory[2] = 2
     computer.run()
@@ -13,7 +13,7 @@ def part_1(text, example: bool = False):
 
 
 def part_2(text, example: bool = False):
-    computer = IntCodeComputer.from_text(text)
+    computer = ListIntCodeComputer.from_text(text)
     for i, j in product(range(100), repeat=2):
         computer.reset()
         computer.memory[1] = i

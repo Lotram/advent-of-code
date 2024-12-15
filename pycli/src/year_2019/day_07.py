@@ -1,8 +1,8 @@
 import concurrent.futures
 import queue
-from itertools import permutations
+from itertools import pairwise, permutations
 
-from .intcode import IntCodeComputer, Memory
+from .intcode import Memory, QueueIntCodeComputer, QueueIOHandler
 
 
 def part_1(text, example: bool = False):
@@ -14,24 +14,32 @@ def part_1(text, example: bool = False):
     codes = list(map(int, text.strip().split(",")))
     queues = [queue.Queue() for _ in range(6)]
 
-    def amplifier(idx):
-        computer = IntCodeComputer(
-            memory=Memory(codes.copy()),
-            input_queue=queues[idx],
-            name=str(f"amp_{idx}"),
-            output_queue=queues[(idx + 1)],
+    io_handlers = [
+        QueueIOHandler(
+            input_queue=input_queue,
+            output_queue=output_queue,
+            get_kwargs={"block": True, "timeout": 1},
         )
-        computer.run(block=True, timeout=5)
+        for input_queue, output_queue in pairwise(queues)
+    ]
+
+    def amplifier(idx):
+        computer = QueueIntCodeComputer(
+            memory=Memory(codes.copy()),
+            name=str(f"amp_{idx}"),
+            io_handler=io_handlers[idx],
+        )
+        computer.run()
 
     for permutation in permutations(range(5)):
         for idx, value in enumerate(permutation):
             assert queues[idx].empty()
             queues[idx].put(value)
 
-        queues[0].put(0)
+        io_handlers[0].put(0)
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             executor.map(amplifier, range(5), timeout=6)
-            result = max(result, queues[-1].get())
+            result = max(result, io_handlers[-1].get())
 
     return result
 
@@ -40,15 +48,22 @@ def part_2(text, example: bool = False):
     result = -float("inf")
     codes = list(map(int, text.strip().split(",")))
     queues = [queue.Queue() for _ in range(5)]
+    io_handlers = [
+        QueueIOHandler(
+            input_queue=queues[idx],
+            output_queue=queues[(idx + 1) % 5],
+            get_kwargs={"block": True, "timeout": 1},
+        )
+        for idx in range(5)
+    ]
 
     def amplifier(idx):
-        computer = IntCodeComputer(
+        computer = QueueIntCodeComputer(
             memory=Memory(codes.copy()),
-            input_queue=queues[idx],
             name=str(f"amp_{idx}"),
-            output_queue=queues[(idx + 1) % 5],
+            io_handler=io_handlers[idx],
         )
-        computer.run(block=True, timeout=5)
+        computer.run()
 
     for permutation in permutations(range(5, 10)):
         for idx, value in enumerate(permutation):

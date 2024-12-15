@@ -1,8 +1,8 @@
-from .intcode import IntCodeComputer
+from .intcode import ListIntCodeComputer
 
 
 def part_1(text, example: bool = False):
-    computer = IntCodeComputer.from_text(text)
+    computer = ListIntCodeComputer.from_text(text)
     computer.put(1)
     computer.run()
 
@@ -11,7 +11,7 @@ def part_1(text, example: bool = False):
 
 
 def part_2(text, example: bool = False):
-    computer = IntCodeComputer.from_text(text)
+    computer = ListIntCodeComputer.from_text(text)
     computer.put(5)
     computer.run()
 
