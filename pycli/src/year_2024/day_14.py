@@ -3,10 +3,16 @@ import re
 from collections import Counter
 from itertools import product
 from operator import gt, lt
+from time import sleep
 from typing import NamedTuple
 
 import numpy as np
+import rich
 from pycli.src.grid import Grid, Vector2D
+from rich.align import Align
+from rich.columns import Columns
+from rich.live import Live
+from rich.panel import Panel
 
 
 class Robot(NamedTuple):
@@ -30,12 +36,12 @@ def parse(text):
     return robots
 
 
-def print_positions(width, height, positions):
+def build_grid(width, height, positions):
     grid = Grid(np.full((height, width), ".", dtype=str))
     for (x, y), count in positions.items():
         grid[y, x] = str(count)
 
-    grid.print()
+    return grid
 
 
 def part_1(text, example: bool = False):
@@ -62,6 +68,10 @@ def part_1(text, example: bool = False):
     return result
 
 
+def get_renderables(grid, step):
+    return Columns([grid, Align(Panel(str(step)), align="center", vertical="middle")])
+
+
 def part_2(text, example: bool = False):
     if example:
         width = 11
@@ -76,7 +86,37 @@ def part_2(text, example: bool = False):
         t += 1
         positions = Counter(robot.get_position(t, height, width) for robot in robots)
         if max(positions.values()) == 1:
-            print_positions(width, height, positions)
             break
 
     return t
+
+
+def print_part_2(text, example: bool = False):
+    if example:
+        width = 11
+        height = 7
+    else:
+        width = 101
+        height = 103
+
+    robots = parse(text)
+    t = 7600
+    grid = build_grid(
+        width, height, Counter(robot.get_position(t, height, width) for robot in robots)
+    )
+    with Live(get_renderables(grid, t), refresh_per_second=10) as live:
+        while True:
+            t += 1
+
+            positions = Counter(
+                robot.get_position(t, height, width) for robot in robots
+            )
+            grid = build_grid(width, height, positions)
+
+            live.update(get_renderables(grid, t))
+            sleep(0.1)
+
+            if t >= 7640:
+                break
+
+        return t

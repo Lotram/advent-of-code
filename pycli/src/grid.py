@@ -3,12 +3,15 @@ from itertools import starmap
 from typing import NamedTuple, Self
 
 import numpy as np
+import rich
+from rich.table import Table
+from rich.text import Text
 
 
 class VectorMixin:
     @property
     def fields(self):
-        return self._fields
+        return self._fields  # pyright: ignore
 
     def __add__(self, vec: Self) -> Self:
         kwargs = {
@@ -207,13 +210,28 @@ class Grid:
     def rot90(self, k):
         self.arr = np.rot90(self.arr, k)
 
-    def print(self, file=None):
+    def to_string(self) -> str:
         if self.arr.dtype == "bool":
             rows = iter(np.where(self.arr, "#", "."))
         else:
             rows = self.rows
-        for row in rows:
-            print("".join(map(str, row)), file=file)
+
+        return "\n".join(("".join(map(str, row))) for row in rows)
+
+    def print(self, file=None):
+        rich.print(self)
+        # print(self.to_string())
+
+    # Unused for now
+    def _to_rich_table(self) -> Table:
+        table = Table(show_lines=False, show_edge=False, box=None, padding=0)
+        for row in self.to_string().splitlines():
+            table.add_row(*list(row))
+
+        return table
+
+    def __rich__(self) -> Text:
+        return Text(self.to_string())
 
     def transpose(self):
         return Grid(self.arr.transpose(), self.diag)
