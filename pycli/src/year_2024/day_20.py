@@ -1,6 +1,6 @@
 from collections import deque
 
-from pycli.src.grid import Grid, Vector
+from pycli.src.grid import Grid
 
 
 def build_path(grid):
@@ -19,7 +19,7 @@ def build_path(grid):
         )
 
     path.popleft()
-    return deque([complex(*position) for position in path])
+    return [complex(*position) for position in path]
 
 
 def solve(path, min_goal, max_distance):
@@ -32,24 +32,14 @@ def solve(path, min_goal, max_distance):
         ]
         for idx in range(1, max_distance + 1)
     }
-    too_close = deque([])
-    for _ in range(min_goal):
-        too_close.append(path.popleft())
 
-    idx = 0
-    result = 0
     path_dict = {position: idx for idx, position in enumerate(path)}
-    while path:
-        position = too_close.popleft()
-        for norm, _all_directions in all_directions.items():
-            for direction in _all_directions:
-                if path_dict.get(position + direction, -1) >= idx + norm:
-                    result += 1
-
-        item = path.popleft()
-        too_close.append(item)
-        idx += 1
-    return result
+    return sum(
+        path_dict.get(position + direction, -1) >= idx + norm + min_goal
+        for idx, position in enumerate(path[:-min_goal])
+        for norm, _all_directions in all_directions.items()
+        for direction in _all_directions
+    )
 
 
 def part_1(text, example: bool = False):
