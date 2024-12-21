@@ -7,32 +7,6 @@ from .grid import Grid, Vector
 inf = float("inf")
 
 
-def deprecated_heapq_dijkstra(graph, distances, start, end):
-    min_dist = {node: 0 if node == start else inf for node in graph}
-    prev = {node: None for node in graph}
-    not_visited = []
-    heapq.heappush(not_visited, (0, start))
-
-    while not_visited:
-        current = heapq.heappop(not_visited)[1]
-        if current == end:
-            break
-
-        for neighbour, distance in distances[current].items():
-            if min_dist[neighbour] > distance + min_dist[current]:
-                min_dist[neighbour] = distance + min_dist[current]
-                prev[neighbour] = current
-                heapq.heappush(not_visited, (distance + min_dist[current], neighbour))
-
-    def get_path(pre, node, path):
-        if node is None:
-            return path
-
-        return get_path(pre, pre[node], [node, *path])
-
-    return min_dist[end], get_path(prev, end, [])
-
-
 def dijkstra(start, stop_condition, get_neighbours, return_all=False):
     return a_star(start, stop_condition, get_neighbours, return_all)
 
@@ -44,9 +18,9 @@ def a_star(start, stop_condition, get_neighbours, return_all=False, heuristic=No
     min_dist = {start: 0}
     prev = {start: None}
     not_visited = []
-    heapq.heappush(not_visited, (0, start))
+    heapq.heappush(not_visited, (0, id(start), start))
     while not_visited:
-        current = heapq.heappop(not_visited)[1]
+        current = heapq.heappop(not_visited)[-1]
         if stop_condition(current):
             break
 
@@ -57,21 +31,21 @@ def a_star(start, stop_condition, get_neighbours, return_all=False, heuristic=No
                 weight = min_dist[neighbour]
                 if heuristic is not None:
                     weight += heuristic(neighbour)
-                heapq.heappush(not_visited, (weight, neighbour))
+                heapq.heappush(not_visited, (weight, id(neighbour), neighbour))
     else:
         if return_all is False:
             raise ValueError("all nodes visited without finding a solution")
 
-    def get_path(pre, node, path):
-        if node is None:
-            return path
-
-        return get_path(pre, pre[node], [node, *path])
-
     if return_all:
         return min_dist
 
-    return min_dist[current], get_path(prev, current, [])
+    def get_path(node, path):
+        if node is None:
+            return path
+
+        return get_path(prev[node], [node, *path])
+
+    return min_dist[current], get_path(current, [])
 
 
 def dijkstra_with_distance(distances, start, end):

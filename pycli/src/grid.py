@@ -1,6 +1,6 @@
 from collections.abc import Collection
 from itertools import starmap
-from typing import NamedTuple, Self
+from typing import Any, NamedTuple, Self
 
 import numpy as np
 import rich
@@ -129,16 +129,22 @@ class Grid:
         return cls(array, diag=diag)
 
     @classmethod
-    def from_complex_values(cls, values: Collection[complex]):
+    def from_complex_values(
+        cls,
+        values: Collection[complex],
+        default: Any = False,
+        value: Any = True,
+        dtype: type = bool,
+    ):
         min_col = int(min(c.real for c in values))
         max_col = int(max(c.real for c in values))
         max_row = int(max(c.imag for c in values))
         min_row = int(min(c.imag for c in values))
         row_size = max_row - min_row + 1
         col_size = max_col - min_col + 1
-        array = np.zeros((row_size, col_size), dtype=bool)
+        array = np.full((row_size, col_size), default, dtype=dtype)
         for val in values:
-            array[max_row - int(val.imag)][int(val.real - min_col)] = True
+            array[max_row - int(val.imag)][int(val.real - min_col)] = value
 
         return cls(array)
 

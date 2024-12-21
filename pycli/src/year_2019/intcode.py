@@ -1,3 +1,4 @@
+import threading
 from collections import defaultdict, deque
 from queue import Queue
 from typing import Any
@@ -81,10 +82,12 @@ class QueueIOHandler(BaseIOHandler):
         input_queue: Queue | None = None,
         output_queue: Queue | None = None,
         get_kwargs: dict[str, Any] | None = None,
+        stop_event=None,
     ):
         self.input_queue = input_queue or Queue()
         self.output_queue = output_queue or Queue()
         self.get_kwargs = get_kwargs or {}
+        self.stop_event = stop_event or threading.Event()
 
     def put(self, item):
         return self.input_queue.put(item)
@@ -125,11 +128,20 @@ class BaseIntCodeComputer[IOHandler: BaseIOHandler](BaseModel):
     def put(self, value):
         self.io_handler.put(value)
 
+    def get_input(self):
+        return self.io_handler.get_input()
+
+    def output(self, item):
+        self.io_handler.output(item)
+
     def get(self):
         return self.io_handler.get()
 
     def get_all(self):
         return self.io_handler.get_all()
+
+    def should_stop(self):
+        return False
 
     @classmethod
     def from_text(cls, text, io_handler: IOHandler):
@@ -166,7 +178,7 @@ class BaseIntCodeComputer[IOHandler: BaseIOHandler](BaseModel):
         return addresses
 
     def run(self):
-        while True:
+        while not self.should_stop():
             try:
                 self._run()
             except Finished:
@@ -192,11 +204,11 @@ class BaseIntCodeComputer[IOHandler: BaseIOHandler](BaseModel):
             case 3:
                 # get input
                 assert not (set(modes) & {1})
-                self.memory[addresses[0]] = self.io_handler.get_input()
+                self.memory[addresses[0]] = self.get_input()
 
             case 4:
                 # output
-                self.io_handler.output(self.memory[addresses[0]])
+                self.output(self.memory[addresses[0]])
 
             case 5:
                 # jump if true
@@ -246,6 +258,9 @@ class ListIntCodeComputer(BaseIntCodeComputer[ListIOHandler]):
 
 
 class QueueIntCodeComputer(BaseIntCodeComputer[QueueIOHandler]):
+    def should_stop(self):
+        return self.io_handler.stop_event.is_set()
+
     @classmethod
     def from_text(cls, text, io_handler: QueueIOHandler | None = None):
         codes = list(map(int, text.strip().split(",")))
