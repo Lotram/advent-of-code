@@ -1,6 +1,8 @@
+from collections import defaultdict
 from itertools import dropwhile, takewhile
 
 import networkx
+from pycli.src.bron_kerbosch import BronKerbosh
 
 
 def build_graph(text):
@@ -30,9 +32,6 @@ def part_1(text, example: bool = False):
 
 def part_2(text, example: bool = False):
     graph = build_graph(text)
-    largest_clique = []
-    for clique in networkx.find_cliques(graph):
-        if len(clique) > len(largest_clique):
-            largest_clique = clique
-    result = ",".join(sorted(largest_clique))
+    cliques = networkx.find_cliques(graph)
+    result = ",".join(sorted(max(cliques, key=len)))
     return result
