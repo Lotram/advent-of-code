@@ -129,7 +129,7 @@ class Solver:
 
     def get_number(self, prefix) -> int:
         bits = self.max_bit + (prefix == "z")
-        return sum(self[(prefix, bit)] * 2**bit for bit in range(bits))
+        return sum(self[(prefix, bit)] * 2**bit for bit in range(bits + 1))
 
     def set_number(self, prefix, value):
         for bit in range(self.max_bit + 1):
