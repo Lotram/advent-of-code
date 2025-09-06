@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -9,7 +10,7 @@ from pycli.utils import get_solution_path, parse_days
 
 app = typer.Typer(no_args_is_help=True)
 
-YEAR: None | int = 2024
+YEAR: None | int = 2019
 
 Year = Annotated[int | None, typer.Option("--year", "-y")]
 
@@ -23,6 +24,7 @@ def solve(
     check: Annotated[bool, typer.Option()] = False,
     submit: Annotated[bool, typer.Option()] = False,
     time: Annotated[bool, typer.Option("--time", "-t")] = False,
+    custom_file: Annotated[Path | None, typer.Option("--custom-file", "-f")] = None,
 ):
     if example and submit:
         raise ValueError("Cannot use both --example and --submit")
@@ -32,7 +34,7 @@ def solve(
     days = parse_days(day)
     if len(days) == 1:
         assert part is not None
-        _solve(days[0], year, part, example, check, submit, time)
+        _solve(days[0], year, part, example, check, submit, time, custom_file)
 
     else:
         errors = []
@@ -45,7 +47,14 @@ def solve(
                     print(f"day {_day:02} - {_part}")
                     try:
                         _solve(
-                            _day, year, _part, example, check, submit=False, time=time
+                            _day,
+                            year,
+                            _part,
+                            example,
+                            check,
+                            submit=False,
+                            time=time,
+                            custom_file=custom_file,
                         )
                     except Exception as error:
                         print(f"Error: {error}")
