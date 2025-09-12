@@ -1,5 +1,4 @@
 from collections.abc import Collection
-from itertools import starmap
 from typing import Any, NamedTuple, Self
 
 import numpy as np
@@ -113,7 +112,7 @@ DIRECTIONS = [
     SOUTH := Vector(1, 0),
     WEST := Vector(0, -1),
 ]
-DIAG_DIRECTIONS = [Vector(-1, -1), Vector(1, -1), Vector(-1, 1), Vector(1, 1)]
+DIAG_DIRECTIONS = [Vector(-1, -1), Vector(1, -1), Vector(1, 1), Vector(-1, 1)]
 
 
 # TODO: make this work with 3D ?
@@ -124,8 +123,8 @@ class Grid:
         self.diag = diag
 
     @classmethod
-    def from_text(cls, text, diag=False):
-        array = np.array(list(map(list, text.strip().split("\n"))))
+    def from_text(cls, text, diag=False, dtype=None):
+        array = np.array(list(map(list, text.strip().split("\n"))), dtype=dtype)
         return cls(array, diag=diag)
 
     @classmethod
@@ -225,9 +224,21 @@ class Grid:
 
         return "\n".join(("".join(map(str, row))) for row in rows)
 
-    def print(self, file=None):
-        rich.print(self)
-        # print(self.to_string())
+    def print(self, file=None, color_rules=None):
+        if color_rules is not None:
+            text = self.to_string()
+            result = []
+
+            for char in text:
+                if char in color_rules:
+                    color = color_rules[char]
+                    result.append(f"[{color}]{char}[/{color}]")
+                else:
+                    result.append(char)
+            rich.print("".join(result))
+
+        else:
+            rich.print(self)
 
     # Unused for now
     def _to_rich_table(self) -> Table:

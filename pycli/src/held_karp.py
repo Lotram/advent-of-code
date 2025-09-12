@@ -1,3 +1,4 @@
+import math
 from itertools import combinations
 
 
@@ -49,33 +50,70 @@ def held_karp_bitmask(distances, max_value=False):
     return opt, path
 
 
-def held_karp(distances, max_value=False):
+def held_karp(distances, max_value=False, predecessors=None):
     N = len(distances)
     all_nodes = frozenset(range(1, N))
     func = max if max_value else min
 
-    # memoization table, where keys are pairs (frozenset of nodes, last node in path) and values are costs
-    costs = {(frozenset([idx]), idx): (distances[0][idx], 0) for idx in all_nodes}
+    def preds_satisfied_in_subset(j, subset_visited):
+        if not predecessors:
+            return True
+        # All predecessors of j are already visited
+        return all(
+            _pred in subset_visited or _pred == 0
+            for _pred in predecessors.get(j, set())
+        )
 
-    # Helper function to find the minimum cost to reach a subset ending in node node
+    def subset_respects_precedence(subset):
+        if not predecessors:
+            return True
+
+        return all(
+            all(
+                _pred in subset or _pred == 0
+                for _pred in predecessors.get(_node, set())
+            )
+            for _node in subset
+        )
+
+    # memoization table, where keys are pairs (frozenset of nodes, last node in path) and values are costs
+    costs = {
+        (frozenset([idx]), idx): (distances[0][idx], 0)
+        for idx in all_nodes
+        if preds_satisfied_in_subset(idx, set())
+    }
+
+    # Helper function to find the minimum cost to go through all nodes from subset and to end in node last_node
     def get_min_cost(subset, last_node):
         prev_subset = subset - {last_node}
+
+        if not preds_satisfied_in_subset(last_node, prev_subset):
+            return float("inf"), None
+
         min_cost, min_prev_node = func(
-            (costs[(prev_subset, _node)][0] + distances[_node][last_node], _node)
-            for _node in prev_subset
+            (
+                (costs[(prev_subset, _node)][0] + distances[_node][last_node], _node)
+                for _node in prev_subset
+                if (prev_subset, _node) in costs
+            ),
+            default=(math.inf, None),
         )
         return min_cost, min_prev_node
 
     # Main loop over all subset sizes
-    for r in range(2, N):
-        for subset in map(frozenset, combinations(all_nodes, r)):
+    for subset_size in range(2, N):
+        for subset in map(frozenset, combinations(all_nodes, subset_size)):
+            if not subset_respects_precedence(subset):
+                continue
             costs.update(
                 {(subset, node): get_min_cost(subset, node) for node in subset}
             )
 
     # Full set case (all nodes)
     full_set_cost, last_node = func(
-        (costs[(all_nodes, node)][0] + distances[node][0], node) for node in all_nodes
+        (costs[(all_nodes, node)][0] + distances[node][0], node)
+        for node in all_nodes
+        if (all_nodes, node) in costs
     )
 
     node = last_node
