@@ -5,7 +5,7 @@ from typing import Generic, TypeVar
 from pydantic import BaseModel
 
 
-NodeType = TypeVar("NodeType", str, int)
+NodeType = TypeVar("NodeType", str, int, tuple[int, int], tuple[int, int, int])
 
 
 class Edge(BaseModel, Generic[NodeType]):
@@ -46,6 +46,9 @@ class DisjointSet(BaseModel, Generic[NodeType]):
     def union(self, x: NodeType, y: NodeType) -> None:
         xroot = self.find(x)
         yroot = self.find(y)
+
+        if xroot == yroot:
+            return  # Already in the same set, nothing to do
 
         x_subset = self.elements[xroot]
         y_subset = self.elements[yroot]

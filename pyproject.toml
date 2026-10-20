@@ -6,7 +6,7 @@ authors = [
     {name = "Laurent Tramoy", email = "laurenttramoy@gmail.com"},
 ]
 dependencies = [
-    "typer[rich]>=0.9.0",
+    "typer>=0.9.0",
     "pydantic>=2.5.2",
     "Pillow>=10.1.0",
     "numpy>=1.26.3",
@@ -14,6 +14,7 @@ dependencies = [
     "networkx[default]>=3.3", # may require extra
     "ruff>=0.5.2",
     "ipython>=8.26.0",
+    "scipy>=1.18.1",
 ]
 requires-python = ">=3.12"
 readme = "README.md"
@@ -22,8 +23,6 @@ license = {text = "MIT"}
 [project.scripts]
 cli = 'pycli.main:app'
 
-
-[tool.uv]
 
 [tool.ruff]
 src = ["pycli/*"]
