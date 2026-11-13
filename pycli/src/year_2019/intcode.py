@@ -1,5 +1,6 @@
 import threading
 from collections import defaultdict, deque
+from multiprocessing.managers import BaseManager
 from queue import Queue
 from typing import Any
 
@@ -106,6 +107,42 @@ class QueueIOHandler(BaseIOHandler):
         while not self.output_queue.empty():
             outputs.append(self.get())
         return outputs
+
+
+def start_queue_manager(
+    handler: QueueIOHandler,
+    host: str = "127.0.0.1",
+    port: int = 50000,
+    authkey: bytes = b"debug",
+):
+    input_queue = handler.input_queue
+    output_queue = handler.output_queue
+
+    def snapshot():
+        with input_queue.mutex:
+            inputs = list(input_queue.queue)
+        with output_queue.mutex:
+            outputs = list(output_queue.queue)
+        return {"input": inputs, "output": outputs}
+
+    BaseManager.register("snapshot", callable=snapshot)
+    BaseManager.register("put_input", callable=input_queue.put)
+    BaseManager.register("put_output", callable=output_queue.put)
+    BaseManager.register("get_input", callable=input_queue.get)
+    BaseManager.register("get_output", callable=output_queue.get)
+
+    manager = BaseManager(
+        address=(host, port),
+        authkey=authkey,
+    )
+
+    server = manager.get_server()
+    threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    ).start()
+
+    return manager
 
 
 class BaseIntCodeComputer[IOHandler: BaseIOHandler](BaseModel):

@@ -801,7 +801,7 @@ requires-dist = [
     { name = "ruff", specifier = ">=0.5.2" },
     { name = "scipy", specifier = ">=1.18.1" },
     { name = "sympy", specifier = ">=1.12" },
-    { name = "typer", extras = ["rich"], specifier = ">=0.9.0" },
+    { name = "typer", specifier = ">=0.9.0" },
 ]
 
 [[package]]

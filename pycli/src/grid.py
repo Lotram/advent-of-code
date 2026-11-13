@@ -31,6 +31,10 @@ class VectorMixin:
     def __rmul__(self, value: int) -> Self:
         return self.__mul__(value)
 
+    def __floordiv__(self, value: int):
+        kwargs = {field: getattr(self, field) // value for field in self.fields}
+        return self.__class__(**kwargs)
+
     def norm(self, p=1) -> float:
         return pow(sum(pow(abs(x), p) for x in self), 1 / p)
 
@@ -123,8 +127,11 @@ class Grid:
         self.diag = diag
 
     @classmethod
-    def from_text(cls, text, diag=False, dtype=None):
+    def from_text(cls, text, diag=False, dtype=None, *, truthy_value=None):
         array = np.array(list(map(list, text.strip().split("\n"))), dtype=dtype)
+        if truthy_value is not None:
+            array = array == truthy_value
+
         return cls(array, diag=diag)
 
     @classmethod
@@ -218,7 +225,9 @@ class Grid:
 
     def to_string(self) -> str:
         if self.arr.dtype == "bool":
+            ## FIXME we should explicitly set the truthy value, as it's sometimes '#', sometimes '.'
             rows = iter(np.where(self.arr, "#", "."))
+            # rows = self.rows
         else:
             rows = self.rows
 

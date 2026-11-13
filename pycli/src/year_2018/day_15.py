@@ -3,7 +3,7 @@ from itertools import count
 from typing import Literal
 
 import numpy as np
-from pycli.src.dijkstra import matrix_dijkstra
+from pycli.src.dijkstra import dijkstra
 from pycli.src.grid import DIRECTIONS, EAST, NORTH, SOUTH, WEST, Grid, Vector
 from pydantic import BaseModel
 
@@ -63,12 +63,6 @@ class Map:
                 print(", ".join(line))
         print()
 
-    def neighbour_func(self, grid, position: Vector) -> Iterable[tuple[Vector, int]]:
-        for direction in (NORTH, WEST, EAST, SOUTH):
-            _position = direction + position
-            if self.is_reachable(_position):
-                yield (_position, 1)
-
     # FIXME: this takes way too much time
     def move(self, position, enemies):
         targets = {
@@ -83,12 +77,18 @@ class Map:
         if position in targets:
             return position
 
+        def neighbour_func(position: Vector) -> Iterable[tuple[Vector, int]]:
+            for direction in (NORTH, WEST, EAST, SOUTH):
+                _position = direction + position
+                if self.is_reachable(_position):
+                    yield (_position, 1)
+
         # Find the target square
         target, (dist, path) = min(
             (
                 (
                     target,
-                    matrix_dijkstra(self.grid, position, target, self.neighbour_func),
+                    dijkstra(position, target, neighbour_func),
                 )
                 for target in targets
             ),
@@ -101,7 +101,7 @@ class Map:
         # Find the next position
         dist, start = min(
             (
-                matrix_dijkstra(self.grid, start, target, self.neighbour_func)[0],
+                dijkstra(start, target, neighbour_func)[0],
                 start,
             )
             for direction in DIRECTIONS
@@ -163,9 +163,9 @@ class Map:
                 self.run_round()
                 round_counter += 1
         except CombatOver:
-            print(f"finished after {round_counter} rounds")
-            self.print()
-            print()
+            # print(f"finished after {round_counter} rounds")
+            # self.print()
+            # print()
             return (
                 sum(char.hit_points for char in self.positions.values()) * round_counter
             )
